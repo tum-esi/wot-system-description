@@ -1,0 +1,33 @@
+@startuml wait
+[->"Agent": top:wait()
+activate "Agent"
+
+group strict 
+par 
+"Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "maintenance"
+activate "VirtualCoffeeMachine"
+"VirtualCoffeeMachine" --> "Agent" : confirmation
+"VirtualCoffeeMachine" ->> "Agent" : data-pushed
+end 
+par 
+"Agent" -> "TestThing" : writeProperty: "string"
+end
+end 
+
+... wait 500ms ...
+
+group strict 
+par 
+"Agent" -> "VirtualCoffeeMachine" : readProperty: "state"
+activate "VirtualCoffeeMachine"
+"VirtualCoffeeMachine" --> "Agent" : response
+deactivate "VirtualCoffeeMachine"
+end 
+par 
+"Agent" -> "TestThing" : writeProperty: "string"
+end
+end 
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

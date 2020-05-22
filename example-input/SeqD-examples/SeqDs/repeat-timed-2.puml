@@ -1,0 +1,22 @@
+@startuml repeatTimed2
+[->"Agent": top:repeatTimed2()
+activate "Agent"
+
+loop forever
+    ... wait 500ms ...
+    group strict
+        par 
+            "Agent" -> "VirtualCoffeeMachine" : readProperty: "state"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : response
+            deactivate "VirtualCoffeeMachine"
+        end 
+        par 
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

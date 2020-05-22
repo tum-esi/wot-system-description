@@ -1,0 +1,857 @@
+{
+    "@context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        {
+            "@language": "en"
+        }
+    ],
+    "id": "de:tum:ei:esi:MashDE:StepperMotor1StepperMotor2InfraredSensor1DobotMagicianVirtualColorSensor1VirtualColorSensor2InfraredSensor2:",
+    "@type": "Thing",
+    "title": "MashupColorSort",
+    "description": "a mashup generated with MashDE",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "nosec_sc",
+    "things": {
+        "StepperMotor1": {
+            "$id": "#StepperMotor1",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "startBeltForward": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.130:8080/StepperMotor/actions/startBeltForward",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "stopBelt": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.130:8080/StepperMotor/actions/stopBelt",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "StepperMotor2": {
+            "$id": "#StepperMotor2",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "startBeltForward": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.131:8080/StepperMotor/actions/startBeltForward",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "stopBelt": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.131:8080/StepperMotor/actions/stopBelt",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "InfraredSensor1": {
+            "$id": "#InfraredSensor1",
+            "base": "example://-",
+            "properties": {},
+            "actions": {},
+            "events": {
+                "detectedObject": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.128:8080/InfraredSensor1/events/detectedObject",
+                            "contentType": "application/json",
+                            "subprotocol": "longpoll",
+                            "op": "subscribeevent"
+                        }
+                    ]
+                }
+            }
+        },
+        "DobotMagician": {
+            "$id": "#DobotMagician",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "pickObjectPosition1": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/pickObjectPosition1",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "moveToColorSensor1": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/moveToColorSensor1",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "moveObjectRed": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectRed",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "moveObjectGreen": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectGreen",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "moveObjectBlue": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectBlue",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "moveObjectNone": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectNone",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "pickObjectPosition2": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/pickObjectPosition2",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "moveToColorSensor2": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.127:8080/DobotMagician/actions/moveToColorSensor2",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "VirtualColorSensor1": {
+            "$id": "#VirtualColorSensor1",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "lightUpLeds": {
+                    "forms": [
+                        {
+                            "href": "http://localhost:8081/VirtualColorSensor1/actions/lightUpLeds",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "readColor": {
+                    "forms": [
+                        {
+                            "href": "http://localhost:8081/VirtualColorSensor1/actions/readColor",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "VirtualColorSensor2": {
+            "$id": "#VirtualColorSensor2",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "lightUpLeds": {
+                    "forms": [
+                        {
+                            "href": "http://localhost:8082/VirtualColorSensor2/actions/lightUpLeds",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "readColor": {
+                    "forms": [
+                        {
+                            "href": "http://localhost:8082/VirtualColorSensor2/actions/readColor",
+                            "contentType": "application/json",
+                            "htv:methodName": "POST",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "InfraredSensor2": {
+            "$id": "#InfraredSensor2",
+            "base": "example://-",
+            "properties": {},
+            "actions": {},
+            "events": {
+                "detectedObject": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.129:8080/InfraredSensor2/events/detectedObject",
+                            "contentType": "application/json",
+                            "subprotocol": "longpoll",
+                            "op": "subscribeevent"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "variables": {
+        "recColor1": {
+            "type": "boolean"
+        },
+        "recColor2": {
+            "type": "boolean"
+        }
+    },
+    "properties": {
+        "isRobotBusy": {
+            "forms": [
+                {
+                    "href": "example://properties/isRobotBusy"
+                }
+            ]
+        },
+        "isObjectPresent1": {
+            "forms": [
+                {
+                    "href": "example://properties/isObjectPresent1"
+                }
+            ]
+        },
+        "isObjectPresent2": {
+            "forms": [
+                {
+                    "href": "example://properties/isObjectPresent2"
+                }
+            ]
+        },
+        "recColor1": {
+            "forms": [
+                {
+                    "href": "example://properties/recColor1"
+                }
+            ]
+        },
+        "recColor2": {
+            "forms": [
+                {
+                    "href": "example://properties/recColor2"
+                }
+            ]
+        }
+    },
+    "actions": {},
+    "functions": {
+        "ColorSort1": {
+            "forms": [
+                {
+                    "href": "example://functions/ColorSort1"
+                }
+            ],
+            "path": [
+                {
+                    "case": {
+                        "if": {
+                            "allOf": [
+                                {
+                                    "not": {
+                                        "get": {
+                                            "$ref": "#/properties/isRobotBusy"
+                                        }
+                                    }
+                                },
+                                {
+                                    "get": {
+                                        "$ref": "#/properties/isObjectPresent1"
+                                    }
+                                }
+                            ]
+                        },
+                        "then": {
+                            "path": [
+                                {
+                                    "set": {
+                                        "$ref": "#/properties/isRobotBusy"
+                                    },
+                                    "defaultInput": true
+                                },
+                                {
+                                    "receive": [
+                                        {
+                                            "form": {
+                                                "$ref": "#DobotMagician/actions/pickObjectPosition1/forms/0"
+                                            },
+                                            "op": "invokeaction"
+                                        }
+                                    ],
+                                    "send": [
+                                        {
+                                            "form": {
+                                                "$ref": "#DobotMagician/actions/moveToColorSensor1/forms/0"
+                                            },
+                                            "op": "invokeaction"
+                                        },
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualColorSensor1/actions/lightUpLeds/forms/0"
+                                            },
+                                            "op": "invokeaction",
+                                            "defaultInput": "ON"
+                                        }
+                                    ],
+                                    "breakOnDataPushed": false
+                                },
+                                {
+                                    "receive": [
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualColorSensor1/actions/readColor/forms/0"
+                                            },
+                                            "op": "invokeaction",
+                                            "set": {
+                                                "$ref": "#/properties/recColor1"
+                                            }
+                                        }
+                                    ],
+                                    "send": [
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualColorSensor1/actions/lightUpLeds/forms/0"
+                                            },
+                                            "op": "invokeaction",
+                                            "defaultInput": "OFF"
+                                        }
+                                    ],
+                                    "breakOnDataPushed": false
+                                },
+                                {
+                                    "case": {
+                                        "if": {
+                                            "get": {
+                                                "$ref": "#/variables/recColor1"
+                                            },
+                                            "output": "Red"
+                                        },
+                                        "then": {
+                                            "path": [
+                                                {
+                                                    "receive": [
+                                                        {
+                                                            "form": {
+                                                                "$ref": "#DobotMagician/actions/moveObjectRed/forms/0"
+                                                            },
+                                                            "op": "invokeaction"
+                                                        }
+                                                    ],
+                                                    "send": [
+                                                        {
+                                                            "form": {
+                                                                "$ref": "#StepperMotor1/actions/startBeltForward/forms/0"
+                                                            },
+                                                            "op": "invokeaction"
+                                                        }
+                                                    ],
+                                                    "breakOnDataPushed": false
+                                                }
+                                            ]
+                                        },
+                                        "else": {
+                                            "path": [
+                                                {
+                                                    "case": {
+                                                        "if": {
+                                                            "get": {
+                                                                "$ref": "#/variables/recColor1"
+                                                            },
+                                                            "output": "Green"
+                                                        },
+                                                        "then": {
+                                                            "path": [
+                                                                {
+                                                                    "receive": [
+                                                                        {
+                                                                            "form": {
+                                                                                "$ref": "#DobotMagician/actions/moveObjectGreen/forms/0"
+                                                                            },
+                                                                            "op": "invokeaction"
+                                                                        }
+                                                                    ],
+                                                                    "send": [
+                                                                        {
+                                                                            "form": {
+                                                                                "$ref": "#StepperMotor1/actions/startBeltForward/forms/0"
+                                                                            },
+                                                                            "op": "invokeaction"
+                                                                        }
+                                                                    ],
+                                                                    "breakOnDataPushed": false
+                                                                }
+                                                            ]
+                                                        },
+                                                        "else": {
+                                                            "path": [
+                                                                {
+                                                                    "case": {
+                                                                        "if": {
+                                                                            "get": {
+                                                                                "$ref": "#/variables/recColor1"
+                                                                            },
+                                                                            "output": "Blue"
+                                                                        },
+                                                                        "then": {
+                                                                            "path": [
+                                                                                {
+                                                                                    "receive": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#DobotMagician/actions/moveObjectBlue/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "send": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#StepperMotor1/actions/startBeltForward/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "breakOnDataPushed": false
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "else": {
+                                                                            "path": [
+                                                                                {
+                                                                                    "receive": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#DobotMagician/actions/moveObjectNone/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "send": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#StepperMotor1/actions/startBeltForward/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "breakOnDataPushed": false
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "set": {
+                                        "$ref": "#/properties/isRobotBusy"
+                                    },
+                                    "defaultInput": false
+                                },
+                                {
+                                    "set": {
+                                        "$ref": "#/properties/isObjectPresent1"
+                                    },
+                                    "defaultInput": false
+                                }
+                            ]
+                        },
+                        "else": {}
+                    }
+                }
+            ]
+        },
+        "ColorSort2": {
+            "forms": [
+                {
+                    "href": "example://functions/ColorSort2"
+                }
+            ],
+            "path": [
+                {
+                    "case": {
+                        "if": {
+                            "allOf": [
+                                {
+                                    "not": {
+                                        "get": {
+                                            "$ref": "#/properties/isRobotBusy"
+                                        }
+                                    }
+                                },
+                                {
+                                    "get": {
+                                        "$ref": "#/properties/isObjectPresent2"
+                                    }
+                                }
+                            ]
+                        },
+                        "then": {
+                            "path": [
+                                {
+                                    "set": {
+                                        "$ref": "#/properties/isRobotBusy"
+                                    },
+                                    "defaultInput": true
+                                },
+                                {
+                                    "receive": [
+                                        {
+                                            "form": {
+                                                "$ref": "#DobotMagician/actions/pickObjectPosition2/forms/0"
+                                            },
+                                            "op": "invokeaction"
+                                        }
+                                    ],
+                                    "send": [
+                                        {
+                                            "form": {
+                                                "$ref": "#DobotMagician/actions/moveToColorSensor2/forms/0"
+                                            },
+                                            "op": "invokeaction"
+                                        },
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualColorSensor2/actions/lightUpLeds/forms/0"
+                                            },
+                                            "op": "invokeaction",
+                                            "defaultInput": "ON"
+                                        }
+                                    ],
+                                    "breakOnDataPushed": false
+                                },
+                                {
+                                    "receive": [
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualColorSensor2/actions/readColor/forms/0"
+                                            },
+                                            "op": "invokeaction",
+                                            "set": {
+                                                "$ref": "#/properties/recColor2"
+                                            }
+                                        }
+                                    ],
+                                    "send": [
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualColorSensor2/actions/lightUpLeds/forms/0"
+                                            },
+                                            "op": "invokeaction",
+                                            "defaultInput": "OFF"
+                                        }
+                                    ],
+                                    "breakOnDataPushed": false
+                                },
+                                {
+                                    "case": {
+                                        "if": {
+                                            "get": {
+                                                "$ref": "#/variables/recColor2"
+                                            },
+                                            "output": "Red"
+                                        },
+                                        "then": {
+                                            "path": [
+                                                {
+                                                    "receive": [
+                                                        {
+                                                            "form": {
+                                                                "$ref": "#DobotMagician/actions/moveObjectRed/forms/0"
+                                                            },
+                                                            "op": "invokeaction"
+                                                        }
+                                                    ],
+                                                    "send": [
+                                                        {
+                                                            "form": {
+                                                                "$ref": "#StepperMotor2/actions/startBeltForward/forms/0"
+                                                            },
+                                                            "op": "invokeaction"
+                                                        }
+                                                    ],
+                                                    "breakOnDataPushed": false
+                                                }
+                                            ]
+                                        },
+                                        "else": {
+                                            "path": [
+                                                {
+                                                    "case": {
+                                                        "if": {
+                                                            "get": {
+                                                                "$ref": "#/variables/recColor2"
+                                                            },
+                                                            "output": "Green"
+                                                        },
+                                                        "then": {
+                                                            "path": [
+                                                                {
+                                                                    "receive": [
+                                                                        {
+                                                                            "form": {
+                                                                                "$ref": "#DobotMagician/actions/moveObjectGreen/forms/0"
+                                                                            },
+                                                                            "op": "invokeaction"
+                                                                        }
+                                                                    ],
+                                                                    "send": [
+                                                                        {
+                                                                            "form": {
+                                                                                "$ref": "#StepperMotor2/actions/startBeltForward/forms/0"
+                                                                            },
+                                                                            "op": "invokeaction"
+                                                                        }
+                                                                    ],
+                                                                    "breakOnDataPushed": false
+                                                                }
+                                                            ]
+                                                        },
+                                                        "else": {
+                                                            "path": [
+                                                                {
+                                                                    "case": {
+                                                                        "if": {
+                                                                            "get": {
+                                                                                "$ref": "#/variables/recColor2"
+                                                                            },
+                                                                            "output": "Blue"
+                                                                        },
+                                                                        "then": {
+                                                                            "path": [
+                                                                                {
+                                                                                    "receive": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#DobotMagician/actions/moveObjectBlue/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "send": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#StepperMotor2/actions/startBeltForward/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "breakOnDataPushed": false
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "else": {
+                                                                            "path": [
+                                                                                {
+                                                                                    "receive": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#DobotMagician/actions/moveObjectNone/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "send": [
+                                                                                        {
+                                                                                            "form": {
+                                                                                                "$ref": "#StepperMotor2/actions/startBeltForward/forms/0"
+                                                                                            },
+                                                                                            "op": "invokeaction"
+                                                                                        }
+                                                                                    ],
+                                                                                    "breakOnDataPushed": false
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "set": {
+                                        "$ref": "#/properties/isRobotBusy"
+                                    },
+                                    "defaultInput": false
+                                },
+                                {
+                                    "set": {
+                                        "$ref": "#/properties/isObjectPresent2"
+                                    },
+                                    "defaultInput": false
+                                }
+                            ]
+                        },
+                        "else": {}
+                    }
+                }
+            ]
+        }
+    },
+    "events": {},
+    "path": [
+        {
+            "set": {
+                "$ref": "#/properties/isRobotBusy"
+            },
+            "defaultInput": false
+        },
+        {
+            "set": {
+                "$ref": "#/properties/isObjectPresent1"
+            },
+            "defaultInput": false
+        },
+        {
+            "set": {
+                "$ref": "#/properties/isObjectPresent2"
+            },
+            "defaultInput": false
+        },
+        {
+            "receive": [
+                {
+                    "form": {
+                        "$ref": "#StepperMotor1/actions/startBeltForward/forms/0"
+                    },
+                    "op": "invokeaction"
+                },
+                {
+                    "form": {
+                        "$ref": "#InfraredSensor1/events/detectedObject/forms/0"
+                    },
+                    "op": "subscribeevent",
+                    "set": {
+                        "$ref": "#/properties/isObjectPresent1"
+                    }
+                }
+            ],
+            "send": [
+                {
+                    "form": {
+                        "$ref": "#StepperMotor1/actions/stopBelt/forms/0"
+                    },
+                    "op": "invokeaction"
+                }
+            ],
+            "breakOnDataPushed": false
+        },
+        {
+            "receive": [
+                {
+                    "form": {
+                        "$ref": "#StepperMotor2/actions/startBeltForward/forms/0"
+                    },
+                    "op": "invokeaction"
+                },
+                {
+                    "form": {
+                        "$ref": "#InfraredSensor2/events/detectedObject/forms/0"
+                    },
+                    "op": "subscribeevent",
+                    "set": {
+                        "$ref": "#/properties/isObjectPresent2"
+                    }
+                }
+            ],
+            "send": [
+                {
+                    "form": {
+                        "$ref": "#StepperMotor2/actions/stopBelt/forms/0"
+                    },
+                    "op": "invokeaction"
+                }
+            ],
+            "breakOnDataPushed": false
+        },
+        {
+            "loop": {
+                "type": "timed",
+                "defaultInput": 500,
+                "path": [
+                    {
+                        "$ref": "#/functions/ColorSort1/path"
+                    },
+                    {
+                        "$ref": "#/functions/ColorSort2/path"
+                    }
+                ]
+            }
+        }
+    ]
+}

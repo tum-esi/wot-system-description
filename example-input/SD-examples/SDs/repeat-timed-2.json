@@ -1,0 +1,91 @@
+{
+    "@context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        {
+            "@language": "en"
+        }
+    ],
+    "id": "de:tum:ei:esi:MashDE:VirtualCoffeeMachineTestThing:",
+    "@type": "Thing",
+    "title": "repeatTimed2",
+    "description": "a mashup generated with MashDE",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "nosec_sc",
+    "things": {
+        "VirtualCoffeeMachine": {
+            "$id": "#VirtualCoffeeMachine",
+            "base": "example://-",
+            "properties": {
+                "state": {
+                    "forms": [
+                        {
+                            "href": "http://127.0.0.1:80/VirtualCoffeeMachine/properties/state",
+                            "contentType": "application/json",
+                            "op": "readproperty"
+                        }
+                    ]
+                }
+            },
+            "actions": {},
+            "events": {}
+        },
+        "TestThing": {
+            "$id": "#TestThing",
+            "base": "example://-",
+            "properties": {
+                "string": {
+                    "forms": [
+                        {
+                            "href": "http://plugfest.thingweb.io:8083/TestThing/properties/string",
+                            "contentType": "application/json",
+                            "op": "writeproperty"
+                        }
+                    ]
+                }
+            },
+            "actions": {},
+            "events": {}
+        }
+    },
+    "variables": {},
+    "properties": {},
+    "actions": {},
+    "functions": {},
+    "events": {},
+    "path": [
+        {
+            "loop": {
+                "type": "logical",
+                "defaultInput": true,
+                "path": [
+                    {
+                        "wait": 500
+                    },
+                    {
+                        "receive": [
+                            {
+                                "form": {
+                                    "$ref": "#VirtualCoffeeMachine/properties/state/forms/0"
+                                },
+                                "op": "readproperty"
+                            }
+                        ],
+                        "send": [
+                            {
+                                "form": {
+                                    "$ref": "#TestThing/properties/string/forms/0"
+                                },
+                                "op": "writeproperty"
+                            }
+                        ],
+                        "breakOnDataPushed": false
+                    }
+                ]
+            }
+        }
+    ]
+}

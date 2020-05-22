@@ -1,0 +1,19 @@
+@startuml templateInvoke
+[->"Agent": top:templateInvoke()
+activate "Agent"
+
+group strict
+    par
+        "Agent" -> "TestThing" : invokeAction: "int-string"
+        activate "TestThing"
+        "TestThing" --> "Agent" : output
+        deactivate "TestThing"
+    end
+    par
+        "Agent" -> "TestThing" : writeProperty: "string"
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

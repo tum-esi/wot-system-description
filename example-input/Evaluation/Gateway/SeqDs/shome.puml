@@ -1,0 +1,69 @@
+@startuml actionComeHome
+[->"Agent": action:ComeHome()
+activate "Agent"
+
+group strict 
+    par 
+        "Agent" -> "DotStarRGBLEDstrip" : readProperty: "stats"
+        activate "DotStarRGBLEDstrip"
+        "DotStarRGBLEDstrip" --> "Agent" : response
+        deactivate "DotStarRGBLEDstrip"
+    end 
+    par
+        "Agent" -> "DotStarRGBLEDstrip" : invokeAction: "random"
+    else
+        "Agent" -> "HueWhiteLamp1" : invokeAction: "set_state"
+        note over Agent
+            defaultInput {"on": true}
+        end note
+    else
+        "Agent" -> "HueWhiteLamp3" : invokeAction: "set_state"
+        note over Agent
+            defaultInput {"on": true}
+        end note
+    else
+        "Agent" -> "HueWhiteLamp4" : invokeAction: "set_state"
+        note over Agent
+            defaultInput {"on": true}
+        end note
+    end 
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
+
+@startuml actionGoAway
+[->"Agent": action:GoAway()
+activate "Agent"
+
+group strict 
+    par 
+        "Agent" -> "DotStarRGBLEDstrip" : readProperty: "stats"
+        activate "DotStarRGBLEDstrip"
+        "DotStarRGBLEDstrip" --> "Agent" : response
+        deactivate "DotStarRGBLEDstrip"
+    end 
+    par
+        "Agent" -> "DotStarRGBLEDstrip" : invokeAction: "shutdown"
+    else
+        "Agent" -> "HueWhiteLamp1" : invokeAction: "set_state"
+        note over Agent
+            defaultInput {"on": false}
+        end note
+    else
+        "Agent" -> "HueWhiteLamp3" : invokeAction: "set_state"
+        note over Agent
+            defaultInput {"on": false}
+        end note
+    else
+        "Agent" -> "HueWhiteLamp4" : invokeAction: "set_state"
+        note over Agent
+            defaultInput {"on": false}
+        end note
+    end 
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

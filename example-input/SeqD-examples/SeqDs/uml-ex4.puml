@@ -1,0 +1,21 @@
+@startuml readExample1
+[->"Agent": top:readExample1()
+activate "Agent"
+
+group strict
+    par
+        "Agent" -> "VirtualCoffeeMachine" : readProperty: "coffeeStatus"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : response
+        deactivate "VirtualCoffeeMachine"
+    end
+    par
+        "Agent" -> "TestThing" : writeProperty: "int"
+    else
+        "Agent" -> "TestThing" : writeProperty: "num"
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

@@ -1,0 +1,65 @@
+@startuml topMashup1
+[->"Agent": top:Mashup1()
+activate "Agent"
+
+note over Agent
+    defaultInput "no"
+    set property isLightOn
+end note
+
+ref over "Agent"
+    function:SubsPress
+end ref
+
+loop every 2000ms
+    alt not(property isLightOn == "no")
+
+        note over Agent
+            defaultInput "no"
+            set property isLightOn
+        end note
+
+        ... wait 5000ms ...
+
+        group strict 
+            par 
+                "Agent" -> "DotStarRGBLEDstrip" : readProperty: "stats"
+                activate "DotStarRGBLEDstrip"
+                "DotStarRGBLEDstrip" --> "Agent" : response
+                deactivate "DotStarRGBLEDstrip"
+            end 
+            par 
+                "Agent" -> "DotStarRGBLEDstrip" : invokeAction: "shutdown"
+            end 
+        end
+    else else
+
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
+
+@startuml functionSubsPress
+[->"Agent": function:SubsPress()
+activate "Agent"
+
+group strict 
+    par 
+        "Agent" -> "SenseHat" : subscribeEvent: "joystickPress"
+        activate "SenseHat"
+        "SenseHat" --> "Agent" : confirmation
+        "SenseHat" ->> "Agent" : data-pushed
+        note over "Agent"
+            set property isLightOn
+        end note
+    end 
+    par 
+        "Agent" -> "DotStarRGBLEDstrip" : invokeAction: "random"
+    end 
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

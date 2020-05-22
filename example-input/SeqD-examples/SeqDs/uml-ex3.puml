@@ -1,0 +1,19 @@
+@startuml templateRead
+[->"Agent": top:templateRead()
+activate "Agent"
+
+group strict
+    par
+        "Agent" -> "VirtualCoffeeMachine" : readProperty: "state"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : response
+        deactivate "VirtualCoffeeMachine"
+    end
+    par
+        "Agent" -> "TestThing" : writeProperty: "string"
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

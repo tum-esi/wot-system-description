@@ -1,0 +1,28 @@
+@startuml repeatDoing
+[->"Agent": top:repeatDoing()
+activate "Agent"
+
+loop 25x
+    group strict
+        par
+            "Agent" -> "VirtualCoffeeMachine" : readProperty: "state"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : response
+            deactivate "VirtualCoffeeMachine"
+            note over Agent
+                set variable myVar1
+            end note
+        end
+        par
+            note over Agent
+                get variable myVar1
+                defaultInput "xyz"
+            end note
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

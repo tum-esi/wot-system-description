@@ -1,0 +1,122 @@
+@startuml topconditionalExecution
+[->"Agent": top:conditionalExecution()
+activate "Agent"
+
+group strict 
+    par 
+        "Agent" -> "VirtualCoffeeMachine" : readProperty: "state"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : response
+        deactivate "VirtualCoffeeMachine"
+    end 
+    par 
+        "Agent" -> "TestThing" : writeProperty: "string"
+    end
+end
+
+note over "Agent"
+    get property MyThird
+    set variable Condition1 
+end note
+
+alt variable Condition1
+    group strict 
+        par 
+            "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "maintenance"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : confirmation
+            "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+        end 
+        par 
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end 
+    end
+else else
+    group strict 
+        par 
+            "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "error"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : confirmation
+            "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+        end 
+        par 
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end 
+    end
+end
+ref over "Agent"
+    function:MyFirst
+end ref
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
+
+@startuml functionMyFirst
+[->"Agent": function:MyFirst()
+activate "Agent"
+
+alt variable Condition2 == "asdf"
+    group strict 
+        par 
+            "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "maintenance"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : confirmation
+            "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+        end 
+        par 
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end 
+    end
+else else
+    group strict 
+        par 
+            "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "error"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : confirmation
+            "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+        end 
+        par 
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end 
+    end
+end
+ref over "Agent"
+    action:MySecond
+end ref
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
+
+@startuml actionMySecond
+[->"Agent": action:MySecond()
+activate "Agent"
+
+group strict
+    par
+        "Agent" -> "VirtualCoffeeMachine" : readProperty: "state"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : response
+        deactivate "VirtualCoffeeMachine"
+    end
+    par
+        "Agent" -> "TestThing" : writeProperty: "string"
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
+
+@startuml propertyMyThird
+[->"Agent": property:MyThird()
+activate "Agent"
+
+note over "Agent"
+get variable myVarXy
+end note
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

@@ -1,0 +1,24 @@
+{
+  "@context": [
+    "https://www.w3.org/2019/wot/td/v1",
+    {
+      "@language": "en"
+    }
+  ],
+  "id": "de:tum:ei:esi:MashDE:",
+  "@type": "Thing",
+  "title": "",
+  "description": "a mashup generated with MashDE",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": "nosec_sc",
+  "things": {},
+  "variables": {},
+  "properties": {},
+  "actions": {},
+  "functions": {},
+  "events": {}
+}

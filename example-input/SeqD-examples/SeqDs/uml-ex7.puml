@@ -1,0 +1,27 @@
+@startuml observeExample1
+[->"Agent": top:observeExample1()
+activate "Agent"
+
+group strict 
+    par
+        "Agent" -> "VirtualCoffeeMachine" : observeProperty: "state"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : confirmation
+        "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+    else 
+        "Agent" -> "VirtualCoffeeMachine" : observeProperty: "waterStatus"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : confirmation
+        "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+    else 
+        break data-pushed
+        end
+    end
+    par
+        "Agent" -> "TestThing" : writeProperty: "string"
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

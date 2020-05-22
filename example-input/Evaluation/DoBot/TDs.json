@@ -1,0 +1,694 @@
+[
+    {
+        "@context": [
+            "https://www.w3.org/2019/wot/td/v1",
+            {
+                "@language": "en"
+            }
+        ],
+        "@type": "",
+        "id": "urn:dev:ops:32473-StepperMotor-001",
+        "title": "StepperMotor1",
+        "description": "Stepper motor on a Rpi",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec"
+            }
+        },
+        "security": "nosec_sc",
+        "properties": {
+            "speed": {
+                "title": "Speed",
+                "description": "Speed of the conveyor belt",
+                "type": "integer",
+                "unit": "%",
+                "minimum": 1,
+                "maximum": 100,
+                "readOnly": false,
+                "writeOnly": false,
+                "observable": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.130:8080/StepperMotor/properties/speed",
+                        "contentType": "application/json",
+                        "op": [
+                            "readproperty",
+                            "writeproperty"
+                        ]
+                    }
+                ]
+            }
+        },
+        "actions": {
+            "startBeltForward": {
+                "title": "Start conveyor belt",
+                "description": "This action starts moving the conveyor belt forward",
+                "output": {
+                    "const": "Conveyor belt started"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.130:8080/StepperMotor/actions/startBeltForward",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "startBeltBackward": {
+                "title": "Start conveyor belt",
+                "description": "This action starts moving the conveyor belt backward",
+                "output": {
+                    "const": "Conveyor belt started"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.130:8080/StepperMotor/actions/startBeltBackward",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "stopBelt": {
+                "title": "Stop conveyor belt",
+                "description": "This action stops moving the conveyor belt",
+                "output": {
+                    "const": "Conveyor belt stopped"
+                },
+                "synchronous": false,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.130:8080/StepperMotor/actions/stopBelt",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            }
+        },
+        "forms": [
+            {
+                "href": "http://192.168.0.130:8080/StepperMotor/all/properties",
+                "contentType": "application/json",
+                "op": [
+                    "readallproperties",
+                    "readmultipleproperties",
+                    "writeallproperties",
+                    "writemultipleproperties"
+                ]
+            }
+        ]
+    },
+    {
+        "@context": [
+            "https://www.w3.org/2019/wot/td/v1",
+            {
+                "@language": "en"
+            }
+        ],
+        "@type": "",
+        "id": "urn:dev:ops:32473-StepperMotor-001",
+        "title": "StepperMotor2",
+        "description": "Stepper motor on a Rpi",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec"
+            }
+        },
+        "security": "nosec_sc",
+        "properties": {
+            "speed": {
+                "title": "Speed",
+                "description": "Speed of the conveyor belt",
+                "type": "integer",
+                "unit": "%",
+                "minimum": 1,
+                "maximum": 100,
+                "readOnly": false,
+                "writeOnly": false,
+                "observable": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.131:8080/StepperMotor/properties/speed",
+                        "contentType": "application/json",
+                        "op": [
+                            "readproperty",
+                            "writeproperty"
+                        ]
+                    }
+                ]
+            }
+        },
+        "actions": {
+            "startBeltForward": {
+                "title": "Start conveyor belt",
+                "description": "This action starts moving the conveyor belt forward",
+                "output": {
+                    "const": "Conveyor belt started"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.131:8080/StepperMotor/actions/startBeltForward",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "startBeltBackward": {
+                "title": "Start conveyor belt",
+                "description": "This action starts moving the conveyor belt backward",
+                "output": {
+                    "const": "Conveyor belt started"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.131:8080/StepperMotor/actions/startBeltBackward",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "stopBelt": {
+                "title": "Stop conveyor belt",
+                "description": "This action stops moving the conveyor belt",
+                "output": {
+                    "const": "Conveyor belt stopped"
+                },
+                "synchronous": false,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.131:8080/StepperMotor/actions/stopBelt",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            }
+        },
+        "forms": [
+            {
+                "href": "http://192.168.0.131:8080/StepperMotor/all/properties",
+                "contentType": "application/json",
+                "op": [
+                    "readallproperties",
+                    "readmultipleproperties",
+                    "writeallproperties",
+                    "writemultipleproperties"
+                ]
+            }
+        ]
+    },
+    {
+        "@context": [
+            "https://www.w3.org/2019/wot/td/v1",
+            {
+                "@language": "en"
+            }
+        ],
+        "@type": "",
+        "id": "urn:dev:ops:32473-InfraredSensor-001",
+        "title": "InfraredSensor1",
+        "description": "Infrared sensor for the detection of objects",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec_sc"
+            }
+        },
+        "security": "nosec_sc",
+        "properties": {
+            "objectPresence": {
+                "title": "Read infrared sensor",
+                "description": "Reads the infrared sensor; 0: no object in front; 1: object in front.",
+                "type": "boolean",
+                "observable": true,
+                "readOnly": false,
+                "writeOnly": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.128:8080/InfraredSensor1/properties/objectPresence",
+                        "contentType": "application/json",
+                        "op": [
+                            "readproperty",
+                            "writeproperty"
+                        ]
+                    },
+                    {
+                        "href": "http://192.168.0.128:8080/InfraredSensor1/properties/objectPresence/observable",
+                        "contentType": "application/json",
+                        "op": [
+                            "observeproperty"
+                        ],
+                        "subprotocol": "longpoll"
+                    }
+                ]
+            }
+        },
+        "events": {
+            "detectedObject": {
+                "title": "Object detected",
+                "description": "Detects the rising edge of the signal of the infrared sensor.",
+                "data": {
+                    "type": "boolean"
+                },
+                "forms": [
+                    {
+                        "href": "http://192.168.0.128:8080/InfraredSensor1/events/detectedObject",
+                        "contentType": "application/json",
+                        "subprotocol": "longpoll",
+                        "op": [
+                            "subscribeevent"
+                        ]
+                    }
+                ]
+            }
+        },
+        "forms": [
+            {
+                "href": "http://192.168.0.128:8080/InfraredSensor1/all/properties",
+                "contentType": "application/json",
+                "op": [
+                    "readallproperties",
+                    "readmultipleproperties",
+                    "writeallproperties",
+                    "writemultipleproperties"
+                ]
+            }
+        ]
+    },
+    {
+        "@context": [
+            "https://www.w3.org/2019/wot/td/v1",
+            {
+                "@language": "en"
+            }
+        ],
+        "@type": "",
+        "id": "urn:dev:ops:32473-DobotMagician-001",
+        "title": "DobotMagician",
+        "description": "Dobot Magician control for ",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec"
+            }
+        },
+        "security": [
+            "nosec_sc"
+        ],
+        "actions": {
+            "startPosition": {
+                "title": "Default start position",
+                "description": "The robot moves to the default start position",
+                "output": {
+                    "const": "Dobot magician is moving to the default start position"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/startPosition",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "pickObjectPosition1": {
+                "title": "Pick object position 1",
+                "description": "The robot picks the object at position 1",
+                "output": {
+                    "const": "Dobot magician is picking object at position 1"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/pickObjectPosition1",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "pickObjectPosition2": {
+                "title": "Pick object position 2",
+                "description": "The robot picks the object at position 2",
+                "output": {
+                    "const": "Dobot magician is picking object at position 2"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/pickObjectPosition2",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "moveToColorSensor1": {
+                "title": "Moves object to color sensor 1",
+                "description": "The robot moves the object at the color sensor 1 for reading the color of the object",
+                "output": {
+                    "const": "Dobot magician is moving object at the color sensor 1"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/moveToColorSensor1",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "moveToColorSensor2": {
+                "title": "Moves object to color sensor 2",
+                "description": "The robot moves the object at the color sensor 2 for reading the color of the object",
+                "output": {
+                    "const": "Dobot magician is moving object at the color sensor 2"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/moveToColorSensor2",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "moveObjectRed": {
+                "title": "Moves object to position red-color",
+                "description": "The robot moves the object to a colot dependend position",
+                "output": {
+                    "const": "Dobot magician is moving object at the color dependent position"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectRed",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "moveObjectGreen": {
+                "title": "Moves object to position green-color",
+                "description": "The robot moves the object to a colot dependend position",
+                "output": {
+                    "const": "Dobot magician is moving object at the color dependent position"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectGreen",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "moveObjectBlue": {
+                "title": "Moves object to position blue-color",
+                "description": "The robot moves the object to a colot dependend position",
+                "output": {
+                    "const": "Dobot magician is moving object at the color dependent position"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectBlue",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            },
+            "moveObjectNone": {
+                "title": "Moves object to position none-color",
+                "description": "The robot moves the object to a colot dependend position",
+                "output": {
+                    "const": "Dobot magician is moving object at the color dependent position"
+                },
+                "synchronous": true,
+                "idempotent": false,
+                "safe": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.127:8080/DobotMagician/actions/moveObjectNone",
+                        "contentType": "application/json",
+                        "op": [
+                            "invokeaction"
+                        ],
+                        "htv:methodName": "POST"
+                    }
+                ]
+            }
+        },
+        "forms": [
+            {
+                "href": "http://192.168.0.127:8080/DobotMagician/all/properties",
+                "contentType": "application/json",
+                "op": [
+                    "readallproperties",
+                    "readmultipleproperties",
+                    "writeallproperties",
+                    "writemultipleproperties"
+                ]
+            }
+        ]
+    },
+    {
+        "@context": ["https://www.w3.org/2019/wot/td/v1", {
+            "@language": "en"
+        }],
+        "id": "urn:dev:ops:32473-ColorSensor-001",
+        "title": "VirtualColorSensor1",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec"
+            }
+        },
+        "security": [
+            "nosec_sc"
+        ],
+        "actions": {
+            "readColor": { 
+                "title": "Read box-color",
+                "description": "Read the box color via the color sensor", 
+                "output": {
+                    "enum": ["Red", "Green", "Blue", "None"]
+                },
+                "idempotent": true,
+                "safe": false,
+                "forms": [{
+                    "href": "http://localhost:8081/VirtualColorSensor1/actions/readColor",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "htv:methodName": "POST"
+                }]
+            },
+            "lightUpLeds": { 
+                "title": "Light up leds",
+                "description": "Lights up the leds, so that a color detection can be done", 
+                "input": {
+                    "enum": ["ON", "OFF"]
+                },
+                "idempotent": true,
+                "safe": false,
+                "forms": [{
+                    "href": "http://localhost:8081/VirtualColorSensor1/actions/lightUpLeds",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "htv:methodName": "POST"
+                }]
+            }    
+        }
+    },
+    {
+        "@context": ["https://www.w3.org/2019/wot/td/v1", {
+            "@language": "en"
+        }],
+        "id": "urn:dev:ops:32473-ColorSensor-002",
+        "title": "VirtualColorSensor2",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec"
+            }
+        },
+        "security": [
+            "nosec_sc"
+        ],
+        "actions": {
+            "readColor": { 
+                "title": "Read box-color",
+                "description": "Read the box color via the color sensor", 
+                "output": {
+                    "enum": ["Red", "Green", "Blue", "None"]
+                },
+                "idempotent": true,
+                "safe": false,
+                "forms": [{
+                    "href": "http://localhost:8082/VirtualColorSensor2/actions/readColor",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "htv:methodName": "POST"
+                }]
+            },
+            "lightUpLeds": { 
+                "title": "Light up leds",
+                "description": "Lights up the leds, so that a color detection can be done", 
+                "input": {
+                    "enum": ["ON", "OFF"]
+                },
+                "idempotent": true,
+                "safe": false,
+                "forms": [{
+                    "href": "http://localhost:8082/VirtualColorSensor2/actions/lightUpLeds",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "htv:methodName": "POST"
+                }]
+            }    
+        }
+    },
+    {
+        "@context": [
+            "https://www.w3.org/2019/wot/td/v1",
+            {
+                "@language": "en"
+            }
+        ],
+        "@type": "",
+        "id": "urn:dev:ops:32473-InfraredSensor-002",
+        "title": "InfraredSensor2",
+        "description": "Infrared sensor for the detection of objects",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec_sc"
+            }
+        },
+        "security": "nosec_sc",
+        "properties": {
+            "objectPresence": {
+                "title": "Read infrared sensor",
+                "description": "Reads the infrared sensor; 0: no object in front; 1: object in front.",
+                "type": "boolean",
+                "observable": true,
+                "readOnly": false,
+                "writeOnly": false,
+                "forms": [
+                    {
+                        "href": "http://192.168.0.129:8080/InfraredSensor2/properties/objectPresence",
+                        "contentType": "application/json",
+                        "op": [
+                            "readproperty",
+                            "writeproperty"
+                        ]
+                    },
+                    {
+                        "href": "http://192.168.0.129:8080/InfraredSensor2/properties/objectPresence/observable",
+                        "contentType": "application/json",
+                        "op": [
+                            "observeproperty"
+                        ],
+                        "subprotocol": "longpoll"
+                    }
+                ]
+            }
+        },
+        "events": {
+            "detectedObject": {
+                "title": "Object detected",
+                "description": "Detects the rising edge of the signal of the infrared sensor.",
+                "data": {
+                    "type": "boolean"
+                },
+                "forms": [
+                    {
+                        "href": "http://192.168.0.129:8080/InfraredSensor2/events/detectedObject",
+                        "contentType": "application/json",
+                        "subprotocol": "longpoll",
+                        "op": [
+                            "subscribeevent"
+                        ]
+                    }
+                ]
+            }
+        },
+        "forms": [
+            {
+                "href": "http://192.168.0.129:8080/InfraredSensor2/all/properties",
+                "contentType": "application/json",
+                "op": [
+                    "readallproperties",
+                    "readmultipleproperties",
+                    "writeallproperties",
+                    "writemultipleproperties"
+                ]
+            }
+        ]
+    }
+]

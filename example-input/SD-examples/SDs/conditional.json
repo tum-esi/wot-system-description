@@ -1,0 +1,286 @@
+{
+    "@context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        {
+            "@language": "en"
+        }
+    ],
+    "id": "de:tum:ei:esi:MashDE:VirtualCoffeeMachineTestThing:",
+    "@type": "Thing",
+    "title": "conditionalExecution",
+    "description": "a mashup generated with MashDE",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "nosec_sc",
+    "things": {
+        "VirtualCoffeeMachine": {
+            "$id": "#VirtualCoffeeMachine",
+            "base": "example://-",
+            "properties": {
+                "state": {
+                    "forms": [
+                        {
+                            "href": "http://127.0.0.1:80/VirtualCoffeeMachine/properties/state",
+                            "contentType": "application/json",
+                            "op": "readproperty"
+                        }
+                    ]
+                }
+            },
+            "actions": {},
+            "events": {
+                "maintenance": {
+                    "forms": [
+                        {
+                            "href": "http://127.0.0.1:80/VirtualCoffeeMachine/events/maintenance",
+                            "contentType": "application/json",
+                            "subprotocol": "longpoll",
+                            "op": "subscribeevent"
+                        }
+                    ]
+                },
+                "error": {
+                    "forms": [
+                        {
+                            "href": "http://127.0.0.1:80/VirtualCoffeeMachine/events/error",
+                            "contentType": "application/json",
+                            "subprotocol": "longpoll",
+                            "op": "subscribeevent"
+                        }
+                    ]
+                }
+            }
+        },
+        "TestThing": {
+            "$id": "#TestThing",
+            "base": "example://-",
+            "properties": {
+                "string": {
+                    "forms": [
+                        {
+                            "href": "http://plugfest.thingweb.io:8083/TestThing/properties/string",
+                            "contentType": "application/json",
+                            "op": "writeproperty"
+                        }
+                    ]
+                }
+            },
+            "actions": {},
+            "events": {}
+        }
+    },
+    "variables": {
+        "Condition1": {},
+        "Condition2": {
+            "type": "boolean"
+        },
+        "myVarXy": {}
+    },
+    "properties": {
+        "MyThird": {
+            "forms": [
+                {
+                    "href": "example://properties/MyThird"
+                }
+            ],
+            "path": [
+                {
+                    "get": {
+                        "$ref": "#/variables/myVarXy"
+                    }
+                }
+            ]
+        }
+    },
+    "actions": {
+        "MySecond": {
+            "forms": [
+                {
+                    "href": "example://actions/MySecond"
+                }
+            ],
+            "path": [
+                {
+                    "receive": [
+                        {
+                            "form": {
+                                "$ref": "#VirtualCoffeeMachine/properties/state/forms/0"
+                            },
+                            "op": "readproperty"
+                        }
+                    ],
+                    "send": [
+                        {
+                            "form": {
+                                "$ref": "#TestThing/properties/string/forms/0"
+                            },
+                            "op": "writeproperty"
+                        }
+                    ],
+                    "breakOnDataPushed": false
+                }
+            ]
+        }
+    },
+    "functions": {
+        "MyFirst": {
+            "forms": [
+                {
+                    "href": "example://functions/MyFirst"
+                }
+            ],
+            "path": [
+                {
+                    "case": {
+                        "if": {
+                            "get": {
+                                "$ref": "#/variables/Condition2"
+                            },
+                            "output": "asdf"
+                        },
+                        "then": {
+                            "path": [
+                                {
+                                    "receive": [
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualCoffeeMachine/events/maintenance/forms/0"
+                                            },
+                                            "op": "subscribeevent"
+                                        }
+                                    ],
+                                    "send": [
+                                        {
+                                            "form": {
+                                                "$ref": "#TestThing/properties/string/forms/0"
+                                            },
+                                            "op": "writeproperty"
+                                        }
+                                    ],
+                                    "breakOnDataPushed": false
+                                }
+                            ]
+                        },
+                        "else": {
+                            "path": [
+                                {
+                                    "receive": [
+                                        {
+                                            "form": {
+                                                "$ref": "#VirtualCoffeeMachine/events/error/forms/0"
+                                            },
+                                            "op": "subscribeevent"
+                                        }
+                                    ],
+                                    "send": [
+                                        {
+                                            "form": {
+                                                "$ref": "#TestThing/properties/string/forms/0"
+                                            },
+                                            "op": "writeproperty"
+                                        }
+                                    ],
+                                    "breakOnDataPushed": false
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "$ref": "#/actions/MySecond/path"
+                }
+            ]
+        }
+    },
+    "events": {},
+    "path": [
+        {
+            "receive": [
+                {
+                    "form": {
+                        "$ref": "#VirtualCoffeeMachine/properties/state/forms/0"
+                    },
+                    "op": "readproperty"
+                }
+            ],
+            "send": [
+                {
+                    "form": {
+                        "$ref": "#TestThing/properties/string/forms/0"
+                    },
+                    "op": "writeproperty"
+                }
+            ],
+            "breakOnDataPushed": false
+        },
+        {
+            "set": {
+                "$ref": "#/variables/Condition1"
+            },
+            "get": {
+                "$ref": "#/properties/MyThird"
+            }
+        },
+        {
+            "case": {
+                "if": {
+                    "get": {
+                        "$ref": "#/variables/Condition1"
+                    }
+                },
+                "then": {
+                    "path": [
+                        {
+                            "receive": [
+                                {
+                                    "form": {
+                                        "$ref": "#VirtualCoffeeMachine/events/maintenance/forms/0"
+                                    },
+                                    "op": "subscribeevent"
+                                }
+                            ],
+                            "send": [
+                                {
+                                    "form": {
+                                        "$ref": "#TestThing/properties/string/forms/0"
+                                    },
+                                    "op": "writeproperty"
+                                }
+                            ],
+                            "breakOnDataPushed": false
+                        }
+                    ]
+                },
+                "else": {
+                    "path": [
+                        {
+                            "receive": [
+                                {
+                                    "form": {
+                                        "$ref": "#VirtualCoffeeMachine/events/error/forms/0"
+                                    },
+                                    "op": "subscribeevent"
+                                }
+                            ],
+                            "send": [
+                                {
+                                    "form": {
+                                        "$ref": "#TestThing/properties/string/forms/0"
+                                    },
+                                    "op": "writeproperty"
+                                }
+                            ],
+                            "breakOnDataPushed": false
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "$ref": "#/functions/MyFirst/path"
+        }
+    ]
+}

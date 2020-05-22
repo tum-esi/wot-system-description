@@ -1,0 +1,1 @@
+The JSON-LD context `./sdContext.json` in this folder and the corresponding ontology `./sdOntology.ttl` define the semantics of a System Description and thus allow describing WoT Mashups machine understandable by representing them with a System Description.

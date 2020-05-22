@@ -1,0 +1,197 @@
+{
+    "@context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        {
+            "@language": "en"
+        }
+    ],
+    "id": "de:tum:ei:esi:MashDE:lightsensorDotStarRGBLEDstriplightsensor2SenseHat:",
+    "@type": "Thing",
+    "title": "Mashup1",
+    "description": "a mashup generated with MashDE",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "nosec_sc",
+    "things": {
+        "light_sensor": {
+            "$id": "#light_sensor",
+            "base": "example://-",
+            "properties": {},
+            "actions": {},
+            "events": {}
+        },
+        "DotStarRGBLEDstrip": {
+            "$id": "#DotStarRGBLEDstrip",
+            "base": "example://-",
+            "properties": {
+                "stats": {
+                    "forms": [
+                        {
+                            "contentType": "application/json",
+                            "href": "http://192.168.0.103:8080/properties/stats",
+                            "op": "readproperty"
+                        }
+                    ]
+                }
+            },
+            "actions": {
+                "shutdown": {
+                    "forms": [
+                        {
+                            "contentType": "application/json",
+                            "href": "http://192.168.0.103:8080/actions/shutdown",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "random": {
+                    "forms": [
+                        {
+                            "contentType": "application/json",
+                            "href": "http://192.168.0.103:8080/actions/random",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "light_sensor_2": {
+            "$id": "#light_sensor_2",
+            "base": "example://-",
+            "properties": {},
+            "actions": {},
+            "events": {}
+        },
+        "SenseHat": {
+            "$id": "#SenseHat",
+            "base": "example://-",
+            "properties": {},
+            "actions": {},
+            "events": {
+                "joystickPress": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.106:8080/SenseHat/events/joystickPress",
+                            "contentType": "application/json",
+                            "subprotocol": "longpoll",
+                            "op": "subscribeevent"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "variables": {},
+    "properties": {
+        "isLightOn": {
+            "forms": [
+                {
+                    "href": "example://properties/isLightOn"
+                }
+            ]
+        }
+    },
+    "actions": {},
+    "functions": {
+        "SubsPress": {
+            "forms": [
+                {
+                    "href": "example://functions/SubsPress"
+                }
+            ],
+            "path": [
+                {
+                    "receive": [
+                        {
+                            "form": {
+                                "$ref": "#SenseHat/events/joystickPress/forms/0"
+                            },
+                            "op": "subscribeevent",
+                            "set": {
+                                "$ref": "#/properties/isLightOn"
+                            }
+                        }
+                    ],
+                    "send": [
+                        {
+                            "form": {
+                                "$ref": "#DotStarRGBLEDstrip/actions/random/forms/0"
+                            },
+                            "op": "invokeaction"
+                        }
+                    ],
+                    "breakOnDataPushed": false
+                }
+            ]
+        }
+    },
+    "events": {},
+    "path": [
+        {
+            "set": {
+                "$ref": "#/properties/isLightOn"
+            },
+            "defaultInput": "no"
+        },
+        {
+            "$ref": "#/functions/SubsPress/path"
+        },
+        {
+            "loop": {
+                "type": "timed",
+                "defaultInput": 2000,
+                "path": [
+                    {
+                        "case": {
+                            "if": {
+                                "not": {
+                                    "get": {
+                                        "$ref": "#/properties/isLightOn"
+                                    },
+                                    "output": "no"
+                                }
+                            },
+                            "then": {
+                                "path": [
+                                    {
+                                        "set": {
+                                            "$ref": "#/properties/isLightOn"
+                                        },
+                                        "defaultInput": "no"
+                                    },
+                                    {
+                                        "wait": 5000
+                                    },
+                                    {
+                                        "receive": [
+                                            {
+                                                "form": {
+                                                    "$ref": "#DotStarRGBLEDstrip/properties/stats/forms/0"
+                                                },
+                                                "op": "readproperty"
+                                            }
+                                        ],
+                                        "send": [
+                                            {
+                                                "form": {
+                                                    "$ref": "#DotStarRGBLEDstrip/actions/shutdown/forms/0"
+                                                },
+                                                "op": "invokeaction"
+                                            }
+                                        ],
+                                        "breakOnDataPushed": false
+                                    }
+                                ]
+                            },
+                            "else": {}
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

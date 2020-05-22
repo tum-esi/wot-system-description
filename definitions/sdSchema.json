@@ -1,0 +1,645 @@
+{
+    "title": "SD Validation Schema",
+    "description": "A schema to validate a system description",
+    "$schema ": "https://json-schema.org/draft-07/schema#",
+    "$comment": "require SD context?!",
+    "definitions": {
+        "tdValidation": {
+            "$id": "#tdSchema",
+            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/WebContent/td-schema.json",
+            "description": "A schema to validate that the system description is a valid thing description, this schema is preferred over the one mentioned in the WoT-TD standard, because 'iri-reference' format is replaced with 'uri-reference', which is understood by the used json-schema-validator."
+        },
+        "variable": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "boolean",
+                        "object",
+                        "array",
+                        "number",
+                        "integer",
+                        "string"
+                    ]
+                },
+                "defaultInput": {
+                    "description": "The initial value of the variable"
+                },
+                "readOnly": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "anyUri": {
+            "type": "string",
+            "format": "uri"
+        },
+        "anyUriRef": {
+            "type": "string",
+            "format": "uri-reference"
+        },
+        "varRef": {
+            "type": "object",
+            "properties": {
+                "$ref": {
+                    "allOf": [
+                        {
+                            "oneOf": [
+                                {
+                                    "description": "Reference to a mashup variable or property",
+                                    "pattern": "^#/(variables)|(properties)/[a-zA-Z][^/]*$"
+                                },
+                                {
+                                    "description": "uri variable of an action",
+                                    "pattern": "^#/actions/[^/]+/uriVariables/[a-zA-Z][^/]*$"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/anyUriRef"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "$ref"
+            ]
+        },
+        "actionRef": {
+            "type": "object",
+            "properties": {
+                "$ref": {
+                    "type": "string",
+                    "pattern": "^#/(actions)|(functions)/[^/]+/path$",
+                    "format": "uri-reference"
+                }
+            },
+            "required": [
+                "$ref"
+            ]
+        },
+        "pathArray": {
+            "description": "Array to order consecutive code parts",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/pathElement"
+            },
+            "minItems": 1
+        },
+        "pathElement": {
+            "type": "object",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/wait"
+                },
+                {
+                    "$ref": "#/definitions/case"
+                },
+                {
+                    "$ref": "#/definitions/loop"
+                },
+                {
+                    "$ref": "#/definitions/interact"
+                },
+                {
+                    "$ref": "#/definitions/set"
+                },
+                {
+                    "$ref": "#/definitions/get"
+                },
+                {
+                    "$ref": "#/definitions/actionRef"
+                }
+            ]
+        },
+        "ifObj": {
+            "oneOf": [
+                {
+                    "type": "object",
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "not": {
+                                    "$ref": "#/definitions/ifObj"
+                                }
+                            },
+                            "required": [
+                                "not"
+                            ]
+                        },
+                        {
+                            "properties": {
+                                "get": {
+                                    "$ref": "#/definitions/varRef"
+                                },
+                                "output": {
+                                    "description": "value to compare with (==)",
+                                    "oneOf": [
+                                        {
+                                            "type": [
+                                                "number",
+                                                "string"
+                                            ]
+                                        },
+                                        {
+                                            "$ref": "#/definitions/varRef"
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "get"
+                            ]
+                        },
+                        {
+                            "properties": {
+                                "oneOf": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ifObj"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "oneOf"
+                            ]
+                        },
+                        {
+                            "properties": {
+                                "anyOf": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ifObj"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "anyOf"
+                            ]
+                        },
+                        {
+                            "properties": {
+                                "allOf": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ifObj"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "allOf"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "case": {
+            "description": "represent the conditional execution in SD",
+            "properties": {
+                "case": {
+                    "type": "object",
+                    "properties": {
+                        "if": {
+                            "$ref": "#/definitions/ifObj"
+                        },
+                        "then": {
+                            "$ref": "#/definitions/thenType"
+                        },
+                        "else": {
+                            "oneOf": [
+                                {
+                                    "$ref": "#/definitions/thenType"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "if",
+                        "then",
+                        "else"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "case"
+            ],
+            "additionalProperties": false
+        },
+        "thenType": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "$ref": "#/definitions/pathArray"
+                }
+            },
+            "required": [
+                "path"
+            ]
+        },
+        "wait": {
+            "description": "wait before executing the next commands",
+            "properties": {
+                "wait": {
+                    "type": "number",
+                    "description": "milliseconds",
+                    "multipleOf": 1.0,
+                    "minimum": 1
+                }
+            },
+            "required": [
+                "wait"
+            ],
+            "additionalProperties": false
+        },
+        "loop": {
+            "properties": {
+                "loop": {
+                    "allOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "$ref": "#/definitions/pathArray"
+                                },
+                                "type": {
+                                    "type": "string"
+                                },
+                                "sync": {
+                                    "type": "boolean",
+                                    "default": true,
+                                    "description": "indicates whether the loop should be executed synchronously or asynchronously (required for code generation)"
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "path"
+                            ]
+                        },
+                        {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "type": {
+                                            "const": "logical"
+                                        },
+                                        "defaultInput": {
+                                            "oneOf": [
+                                                {
+                                                    "const": true,
+                                                    "description": "Execute the loop forever"
+                                                },
+                                                {
+                                                    "type": "number",
+                                                    "description": "Execute the loop X times",
+                                                    "multipleOf": 1.0,
+                                                    "minimum": 1
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "defaultInput"
+                                    ]
+                                },
+                                {
+                                    "properties": {
+                                        "type": {
+                                            "const": "timed"
+                                        },
+                                        "defaultInput": {
+                                            "type": "number",
+                                            "description": "Time intervall to execute the loop in Milliseconds",
+                                            "multipleOf": 1.0,
+                                            "minimum": 1
+                                        }
+                                    },
+                                    "required": [
+                                        "defaultInput"
+                                    ]
+                                },
+                                {
+                                    "properties": {
+                                        "type": {
+                                            "enum": [
+                                                "logical",
+                                                "timed"
+                                            ]
+                                        },
+                                        "get": {
+                                            "$ref": "#/definitions/varRef"
+                                        }
+                                    },
+                                    "required": [
+                                        "get"
+                                    ],
+                                    "description": "The referenced variable Must have type boolean or number for logical loop, only number for timed loop"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "loop"
+            ],
+            "additionalProperties": false
+        },
+        "interact": {
+            "title": "basic interaction sequence",
+            "description": "interaction sequence that can invoke one more receiving interactions followed by one or more sending interactions",
+            "properties": {
+                "receive": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/receiveObj"
+                    }
+                },
+                "send": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sendObj"
+                    }
+                },
+                "breakOnDataPushed": {
+                    "type": "boolean",
+                    "default": false,
+                    "$comment": "break receive subscriptions/observations on first data-pushed"
+                }
+            },
+            "required": [
+                "receive",
+                "send"
+            ],
+            "additionalProperties": false
+        },
+        "receiveObj": {
+            "title": "Receive Interaction",
+            "description": "An interaction to receive some kind of data, can be: readproperty, subscribeevent, observeproperty or invokeaction (action with a return value)",
+            "type": "object",
+            "properties": {
+                "form": {
+                    "type": "object",
+                    "properties": {
+                        "$ref": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/anyUriRef"
+                                },
+                                {
+                                    "pattern": "^#[^/]+/(events)|(properties)|(actions)/[^/]+/forms/[0-9]+$"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "op": {
+                    "type": "string",
+                    "enum": [
+                        "readproperty", "observeproperty", "invokeaction", "subscribeevent"
+                    ]
+                },
+                "set": {
+                    "$ref": "#/definitions/varRef"
+                }
+            },
+            "required": [
+                "form",
+                "op"
+            ],
+            "additionalProperties": false
+        },
+        "sendObj": {
+            "title": "Send Interaction",
+            "description": "An interaction to send some kind of data, can be: writeproperty or invokeaction",
+            "type": "object",
+            "properties": {
+                "form": {
+                    "type": "object",
+                    "properties": {
+                        "$ref": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/anyUriRef"
+                                },
+                                {
+                                    "pattern": "^#[^/]+/(actions)|(properties)/[^/]+/forms/[0-9]+$"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "op": {
+                    "type": "string",
+                    "enum": [
+                        "writeproperty", "invokeaction"
+                    ]
+                },
+                "get": {
+                    "$ref": "#/definitions/varRef"
+                },
+                "defaultInput": {
+                    "description": "data to send"
+                }
+            },
+            "required": [
+                "form"
+            ],
+            "additionalProperties": false
+        },
+        "set": {
+            "properties": {
+                "set": {
+                    "$ref": "#/definitions/varRef"
+                },
+                "defaultInput": {},
+                "get": {}
+            },
+            "required": [
+                "set"
+            ],
+            "additionalProperties": false,
+            "oneOf": [
+                {
+                    "required": [
+                        "defaultInput"
+                    ]
+                },
+                {
+                    "required": [
+                        "get"
+                    ]
+                }
+            ]
+        },
+        "get": {
+            "properties": {
+                "get": {
+                    "$ref": "#/definitions/varRef"
+                }
+            },
+            "required": [
+                "get"
+            ],
+            "additionalProperties": false
+        },
+        "eventPropertyAction": {
+            "type": "object",
+            "properties": {
+                "forms": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "defaultInput": {
+                                "description": "Value to initialize the Property with"
+                            }
+                        },
+                        "$comment": "the properties: op and href will be checked by TD-schema, but op is not required there",
+                        "required": [
+                            "op",
+                            "href"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/definitions/tdValidation"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "properties": {
+                    "description": "Properties are enhanced vs. the TD-properties with a path field to execute application logic at property read/write/observe/subscribe",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "path": {
+                                "$ref": "#/definitions/pathArray"
+                            },
+                            "isUpdatedOnDemand": {
+                                "type": "boolean",
+                                "default": true,
+                                "description": "indicates whether the Property should be kept up to date (->faster available) or can be computed at request (less computational effort)"
+                            }
+                        }
+                    }
+                },
+                "actions": {
+                    "description": "Actions can be 'normal' TD Actions or be seen as public functions of a Mashup, when they include Application logic in their path property",
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "$ref": "#/definitions/pathArray"
+                        },
+                        "defaultOutput": {
+                            "description": "value that the action will return if not otherwise specified"
+                        },
+                        "defaultInput": {
+                            "description": "input value of the action if no parameter is given"
+                        }
+                    }
+                },
+                "path": {
+                    "description": "Includes the application logic, that should be executed as soon as the Mashup-Code is executed",
+                    "$ref": "#/definitions/pathArray"
+                },
+                "variables": {
+                    "description": "internal Variables that are used for Mashup internal purposes only",
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/variable"
+                    }
+                },
+                "functions": {
+                    "description": "internal functions (vs. actions) that should not be externally accessible after code generation",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "path": {
+                                "$ref": "#/definitions/pathArray"
+                            }
+                        },
+                        "required": ["path"]
+                    }
+                },
+                "things": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "$id": {
+                                "type": "string",
+                                "pattern": "^#[^#]+$"
+                            },
+                            "base": {
+                                "$ref": "#/definitions/anyUri"
+                            },
+                            "events": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/WebContent/td-schema.json#/definitions/event_element"
+                                        },
+                                        {
+                                            "$ref": "#/definitions/eventPropertyAction"
+                                        }
+                                    ]
+                                }
+                            },
+                            "actions": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/WebContent/td-schema.json#/definitions/action_element"
+                                        },
+                                        {
+                                            "$ref": "#/definitions/eventPropertyAction"
+                                        }
+                                    ]
+                                }
+                            },
+                            "properties": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/WebContent/td-schema.json#/definitions/property_element"
+                                        },
+                                        {
+                                            "$ref": "#/definitions/eventPropertyAction"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "$id",
+                            "base"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "things"
+            ]
+        }
+    ]
+}

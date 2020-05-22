@@ -1,0 +1,34 @@
+@startuml templateSubscribe
+[->"Agent": top:templateSubscribe()
+activate "Agent"
+
+note over "Agent"
+    defaultInput "asdf"
+    set variable Var1
+end note
+
+note over "Agent"
+    defaultInput 2349
+    set property prop1
+end note
+
+note over "Agent"
+    defaultInput true
+    set variable Var2
+end note
+
+group strict
+    par
+        "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "maintenance"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : confirmation
+        "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+    end
+    par
+        "Agent" -> "TestThing" : writeProperty: "string"
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
