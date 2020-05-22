@@ -1,0 +1,97 @@
+{
+    "@context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        {
+            "@language": "en"
+        }
+    ],
+    "id": "de:tum:ei:esi:MashDE:VirtualCoffeeMachineTestThing:",
+    "@type": "Thing",
+    "title": "subscribeExample1",
+    "description": "a mashup generated with MashDE",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "nosec_sc",
+    "things": {
+        "VirtualCoffeeMachine": {
+            "$id": "#VirtualCoffeeMachine",
+            "base": "example://-",
+            "properties": {},
+            "actions": {},
+            "events": {
+                "maintenance": {
+                    "forms": [
+                        {
+                            "href": "http://127.0.0.1:80/VirtualCoffeeMachine/events/maintenance",
+                            "contentType": "application/json",
+                            "subprotocol": "longpoll",
+                            "op": "subscribeevent"
+                        }
+                    ]
+                },
+                "error": {
+                    "forms": [
+                        {
+                            "href": "http://127.0.0.1:80/VirtualCoffeeMachine/events/error",
+                            "contentType": "application/json",
+                            "subprotocol": "longpoll",
+                            "op": "subscribeevent"
+                        }
+                    ]
+                }
+            }
+        },
+        "TestThing": {
+            "$id": "#TestThing",
+            "base": "example://-",
+            "properties": {
+                "string": {
+                    "forms": [
+                        {
+                            "href": "http://plugfest.thingweb.io:8083/TestThing/properties/string",
+                            "contentType": "application/json",
+                            "op": "writeproperty"
+                        }
+                    ]
+                }
+            },
+            "actions": {},
+            "events": {}
+        }
+    },
+    "variables": {},
+    "properties": {},
+    "actions": {},
+    "functions": {},
+    "events": {},
+    "path": [
+        {
+            "receive": [
+                {
+                    "form": {
+                        "$ref": "#VirtualCoffeeMachine/events/maintenance/forms/0"
+                    },
+                    "op": "subscribeevent"
+                },
+                {
+                    "form": {
+                        "$ref": "#VirtualCoffeeMachine/events/error/forms/0"
+                    },
+                    "op": "subscribeevent"
+                }
+            ],
+            "send": [
+                {
+                    "form": {
+                        "$ref": "#TestThing/properties/string/forms/0"
+                    },
+                    "op": "writeproperty"
+                }
+            ],
+            "breakOnDataPushed": false
+        }
+    ]
+}

@@ -1,0 +1,306 @@
+@startuml topMashupColorSort
+[->"Agent": top:MashupColorSort()
+activate "Agent"
+
+note over "Agent"
+    defaultInput false
+    set property isRobotBusy
+end note
+
+note over "Agent"
+    defaultInput false
+    set property isObjectPresent1
+end note
+
+note over "Agent"
+    defaultInput false
+    set property isObjectPresent2
+end note
+
+group strict 
+    par         
+        "Agent" -> "StepperMotor1" : invokeAction: "startBeltForward"
+        activate "StepperMotor1"
+        "StepperMotor1" --> "Agent" : output
+        deactivate "StepperMotor1"
+    else
+        "Agent" -> "InfraredSensor1" : subscribeEvent: "detectedObject"
+        activate "InfraredSensor1"
+        "InfraredSensor1" --> "Agent" : confirmation
+        "InfraredSensor1" ->> "Agent" : data-pushed
+        note over "Agent"
+            set property isObjectPresent1
+        end note
+    end
+    par 
+        "Agent" -> "StepperMotor1" : invokeAction: "stopBelt"
+    end 
+end
+
+group strict 
+    par         
+        "Agent" -> "StepperMotor2" : invokeAction: "startBeltForward"
+        activate "StepperMotor2"
+        "StepperMotor2" --> "Agent" : output
+        deactivate "StepperMotor2"
+    else
+        "Agent" -> "InfraredSensor2" : subscribeEvent: "detectedObject"
+        activate "InfraredSensor2"
+        "InfraredSensor2" --> "Agent" : confirmation
+        "InfraredSensor2" ->> "Agent" : data-pushed
+        note over "Agent"
+            set property isObjectPresent2
+        end note
+    end
+    par 
+        "Agent" -> "StepperMotor2" : invokeAction: "stopBelt"
+    end 
+end
+
+loop every 500ms
+        ref over "Agent"
+            function:ColorSort1
+        end ref
+
+        ref over "Agent"
+            function:ColorSort2
+        end ref
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
+
+
+@startuml functionColorSort1
+[->"Agent": function:ColorSort1()
+activate "Agent"
+
+alt allOf(not(property isRobotBusy), property isObjectPresent1)
+
+    note over "Agent"
+        defaultInput true
+        set property isRobotBusy
+    end note
+
+    group strict 
+        par 
+            "Agent" -> "DobotMagician" : invokeAction: "pickObjectPosition1"
+            activate "DobotMagician"
+            "DobotMagician" --> "Agent" : output
+            deactivate "DobotMagician"
+        end 
+        par 
+            "Agent" -> "DobotMagician" : invokeAction: "moveToColorSensor1"
+        else
+            "Agent" -> "VirtualColorSensor1" : invokeAction: "lightUpLeds"
+            note over "Agent"
+                defaultInput "ON"
+            end note
+        end 
+    end
+
+    group strict 
+        par 
+            "Agent" -> "VirtualColorSensor1" : invokeAction: "readColor"
+            activate "VirtualColorSensor1"
+            "VirtualColorSensor1" --> "Agent" : output
+            deactivate "VirtualColorSensor1"
+            note over "Agent"
+                set property recColor1
+            end note
+        end 
+        par 
+            "Agent" -> "VirtualColorSensor1" : invokeAction: "lightUpLeds"
+            note over "Agent"
+                defaultInput "OFF"
+            end note        
+        end 
+    end
+
+    alt variable recColor1 == "Red"
+        group strict 
+            par 
+                "Agent" -> "DobotMagician" : invokeAction: "moveObjectRed"
+                activate "DobotMagician"
+                "DobotMagician" --> "Agent" : output
+                deactivate "DobotMagician"
+            end 
+            par 
+                "Agent" -> "StepperMotor1" : invokeAction: "startBeltForward"
+            end 
+        end
+    else else
+        alt variable recColor1 == "Green"
+            group strict 
+                par 
+                    "Agent" -> "DobotMagician" : invokeAction: "moveObjectGreen"
+                    activate "DobotMagician"
+                    "DobotMagician" --> "Agent" : output
+                    deactivate "DobotMagician"
+                end 
+                par 
+                    "Agent" -> "StepperMotor1" : invokeAction: "startBeltForward"
+                end 
+            end
+        else else
+            alt variable recColor1 == "Blue"
+                group strict 
+                    par 
+                        "Agent" -> "DobotMagician" : invokeAction: "moveObjectBlue"
+                        activate "DobotMagician"
+                        "DobotMagician" --> "Agent" : output
+                        deactivate "DobotMagician"
+                    end 
+                    par 
+                        "Agent" -> "StepperMotor1" : invokeAction: "startBeltForward"
+                    end 
+                end
+            else else
+                group strict 
+                    par 
+                        "Agent" -> "DobotMagician" : invokeAction: "moveObjectNone"
+                        activate "DobotMagician"
+                        "DobotMagician" --> "Agent" : output
+                        deactivate "DobotMagician"
+                    end 
+                    par 
+                        "Agent" -> "StepperMotor1" : invokeAction: "startBeltForward"
+                    end 
+                end
+            end
+        end
+    end
+
+    note over "Agent"
+        defaultInput false
+        set property isRobotBusy
+    end note
+
+    note over "Agent"
+        defaultInput false
+        set property isObjectPresent1
+    end note
+
+else else
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml
+
+@startuml functionColorSort2
+[->"Agent": function:ColorSort2()
+activate "Agent"
+
+alt allOf(not(property isRobotBusy), property isObjectPresent2)
+
+    note over "Agent"
+        defaultInput true
+        set property isRobotBusy
+    end note
+
+    group strict 
+        par 
+            "Agent" -> "DobotMagician" : invokeAction: "pickObjectPosition2"
+            activate "DobotMagician"
+            "DobotMagician" --> "Agent" : output
+            deactivate "DobotMagician"
+        end 
+        par 
+            "Agent" -> "DobotMagician" : invokeAction: "moveToColorSensor2"
+            "Agent" -> "VirtualColorSensor2" : invokeAction: "lightUpLeds"
+            note over "Agent"
+                defaultInput "ON"
+            end note
+        end 
+    end
+
+    group strict 
+        par 
+            "Agent" -> "VirtualColorSensor2" : invokeAction: "readColor"
+            activate "VirtualColorSensor2"
+            "VirtualColorSensor2" --> "Agent" : output
+            deactivate "VirtualColorSensor2"
+            note over "Agent"
+                set property recColor2
+            end note
+        end 
+        par 
+            "Agent" -> "VirtualColorSensor2" : invokeAction: "lightUpLeds"
+            note over "Agent"
+                defaultInput "OFF"
+            end note        
+        end 
+    end
+
+    alt variable recColor2 == "Red"
+        group strict 
+            par 
+                "Agent" -> "DobotMagician" : invokeAction: "moveObjectRed"
+                activate "DobotMagician"
+                "DobotMagician" --> "Agent" : output
+                deactivate "DobotMagician"
+            end 
+            par 
+                "Agent" -> "StepperMotor2" : invokeAction: "startBeltForward"
+            end 
+        end
+    else else
+        alt variable recColor2 == "Green"
+            group strict 
+                par 
+                    "Agent" -> "DobotMagician" : invokeAction: "moveObjectGreen"
+                    activate "DobotMagician"
+                    "DobotMagician" --> "Agent" : output
+                    deactivate "DobotMagician"
+                end 
+                par 
+                    "Agent" -> "StepperMotor2" : invokeAction: "startBeltForward"
+                end 
+            end
+        else else
+            alt variable recColor2 == "Blue"
+                group strict 
+                    par 
+                        "Agent" -> "DobotMagician" : invokeAction: "moveObjectBlue"
+                        activate "DobotMagician"
+                        "DobotMagician" --> "Agent" : output
+                        deactivate "DobotMagician"
+                    end 
+                    par 
+                        "Agent" -> "StepperMotor2" : invokeAction: "startBeltForward"
+                    end 
+                end
+            else else
+                group strict 
+                    par 
+                        "Agent" -> "DobotMagician" : invokeAction: "moveObjectNone"
+                        activate "DobotMagician"
+                        "DobotMagician" --> "Agent" : output
+                        deactivate "DobotMagician"
+                    end 
+                    par 
+                        "Agent" -> "StepperMotor2" : invokeAction: "startBeltForward"
+                    end 
+                end
+            end
+        end
+    end
+
+    note over "Agent"
+        defaultInput false
+        set property isRobotBusy
+    end note
+
+    note over "Agent"
+        defaultInput false
+        set property isObjectPresent2
+    end note
+
+else else
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

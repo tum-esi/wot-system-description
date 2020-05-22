@@ -1,0 +1,19 @@
+@startuml templateObserve
+[->"Agent": top:templateObserve()
+activate "Agent"
+
+group strict
+par
+"Agent" -> "VirtualCoffeeMachine" : observeProperty: "state"
+activate "VirtualCoffeeMachine"
+"VirtualCoffeeMachine" --> "Agent" : confirmation
+"VirtualCoffeeMachine" ->> "Agent" : data-pushed
+end
+par
+"Agent" -> "TestThing" : writeProperty: "string"
+end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

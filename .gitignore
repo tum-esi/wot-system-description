@@ -1,0 +1,18 @@
+# editor settings
+.vscode
+
+# build target
+dist
+
+# npm modules
+node_modules
+package-lock.json
+
+# created SD files
+created-output
+
+# plantUML image output
+out
+
+# tests
+dev

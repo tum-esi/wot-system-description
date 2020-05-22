@@ -1,0 +1,226 @@
+{
+    "@context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        {
+            "@language": "en"
+        }
+    ],
+    "id": "de:tum:ei:esi:MashDE:DotStarRGBLEDstripHueWhiteLamp1HueWhiteLamp3HueWhiteLamp4:",
+    "@type": "Thing",
+    "title": "Mashup1",
+    "description": "a mashup generated with MashDE",
+    "securityDefinitions": {
+        "nosec_sc": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "nosec_sc",
+    "things": {
+        "DotStarRGBLEDstrip": {
+            "$id": "#DotStarRGBLEDstrip",
+            "base": "example://-",
+            "properties": {
+                "stats": {
+                    "forms": [
+                        {
+                            "contentType": "application/json",
+                            "href": "http://192.168.0.103:8080/properties/stats",
+                            "op": "readproperty"
+                        }
+                    ]
+                }
+            },
+            "actions": {
+                "random": {
+                    "forms": [
+                        {
+                            "contentType": "application/json",
+                            "href": "http://192.168.0.103:8080/actions/random",
+                            "op": "invokeaction"
+                        }
+                    ]
+                },
+                "shutdown": {
+                    "forms": [
+                        {
+                            "contentType": "application/json",
+                            "href": "http://192.168.0.103:8080/actions/shutdown",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "HueWhiteLamp1": {
+            "$id": "#HueWhiteLamp1",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "set_state": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.111/api/R6D7CYQFzXckikMPLEL8WbSZWg9XKkEyx-NrgKws/lights/1/state",
+                            "contentType": "application/json",
+                            "htv:methodName": "PUT",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "HueWhiteLamp3": {
+            "$id": "#HueWhiteLamp3",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "set_state": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.111/api/R6D7CYQFzXckikMPLEL8WbSZWg9XKkEyx-NrgKws/lights/3/state",
+                            "contentType": "application/json",
+                            "htv:methodName": "PUT",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        },
+        "HueWhiteLamp4": {
+            "$id": "#HueWhiteLamp4",
+            "base": "example://-",
+            "properties": {},
+            "actions": {
+                "set_state": {
+                    "forms": [
+                        {
+                            "href": "http://192.168.0.111/api/R6D7CYQFzXckikMPLEL8WbSZWg9XKkEyx-NrgKws/lights/4/state",
+                            "contentType": "application/json",
+                            "htv:methodName": "PUT",
+                            "op": "invokeaction"
+                        }
+                    ]
+                }
+            },
+            "events": {}
+        }
+    },
+    "variables": {},
+    "properties": {},
+    "actions": {
+        "ComeHome": {
+            "forms": [
+                {
+                    "href": "example://actions/ComeHome"
+                }
+            ],
+            "path": [
+                {
+                    "receive": [
+                        {
+                            "form": {
+                                "$ref": "#DotStarRGBLEDstrip/properties/stats/forms/0"
+                            },
+                            "op": "readproperty"
+                        }
+                    ],
+                    "send": [
+                        {
+                            "form": {
+                                "$ref": "#DotStarRGBLEDstrip/actions/random/forms/0"
+                            },
+                            "op": "invokeaction"
+                        },
+                        {
+                            "form": {
+                                "$ref": "#HueWhiteLamp1/actions/set_state/forms/0"
+                            },
+                            "op": "invokeaction",
+                            "defaultInput": {
+                                "on": true
+                            }
+                        },
+                        {
+                            "form": {
+                                "$ref": "#HueWhiteLamp3/actions/set_state/forms/0"
+                            },
+                            "op": "invokeaction",
+                            "defaultInput": {
+                                "on": true
+                            }
+                        },
+                        {
+                            "form": {
+                                "$ref": "#HueWhiteLamp4/actions/set_state/forms/0"
+                            },
+                            "op": "invokeaction",
+                            "defaultInput": {
+                                "on": true
+                            }
+                        }
+                    ],
+                    "breakOnDataPushed": false
+                }
+            ]
+        },
+        "GoAway": {
+            "forms": [
+                {
+                    "href": "example://actions/GoAway"
+                }
+            ],
+            "path": [
+                {
+                    "receive": [
+                        {
+                            "form": {
+                                "$ref": "#DotStarRGBLEDstrip/properties/stats/forms/0"
+                            },
+                            "op": "readproperty"
+                        }
+                    ],
+                    "send": [
+                        {
+                            "form": {
+                                "$ref": "#DotStarRGBLEDstrip/actions/shutdown/forms/0"
+                            },
+                            "op": "invokeaction"
+                        },
+                        {
+                            "form": {
+                                "$ref": "#HueWhiteLamp1/actions/set_state/forms/0"
+                            },
+                            "op": "invokeaction",
+                            "defaultInput": {
+                                "on": false
+                            }
+                        },
+                        {
+                            "form": {
+                                "$ref": "#HueWhiteLamp3/actions/set_state/forms/0"
+                            },
+                            "op": "invokeaction",
+                            "defaultInput": {
+                                "on": false
+                            }
+                        },
+                        {
+                            "form": {
+                                "$ref": "#HueWhiteLamp4/actions/set_state/forms/0"
+                            },
+                            "op": "invokeaction",
+                            "defaultInput": {
+                                "on": false
+                            }
+                        }
+                    ],
+                    "breakOnDataPushed": false
+                }
+            ]
+        }
+    },
+    "functions": {},
+    "events": {}
+}

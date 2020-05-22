@@ -1,0 +1,33 @@
+@startuml conditionalExecution
+[->"Agent": top:conditionalExecution()
+activate "Agent"
+
+alt allOf(not(variable Condition1 == "asdf"), oneOf(property Condition2, variable Condition3 == 5), variable Condition1 == variable Condition3)
+    group strict 
+        par 
+            "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "maintenance"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : confirmation
+            "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+        end 
+        par 
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end 
+    end
+else else
+    group strict 
+        par 
+            "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "error"
+            activate "VirtualCoffeeMachine"
+            "VirtualCoffeeMachine" --> "Agent" : confirmation
+            "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+        end 
+        par 
+            "Agent" -> "TestThing" : writeProperty: "string"
+        end 
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

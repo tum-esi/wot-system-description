@@ -1,0 +1,24 @@
+@startuml subscribeExample1
+[->"Agent": top:subscribeExample1()
+activate "Agent"
+
+group strict
+    par
+        "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "maintenance"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : confirmation
+        "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+    else
+        "Agent" -> "VirtualCoffeeMachine" : subscribeEvent: "error"
+        activate "VirtualCoffeeMachine"
+        "VirtualCoffeeMachine" --> "Agent" : confirmation
+        "VirtualCoffeeMachine" ->> "Agent" : data-pushed
+    end
+    par
+        "Agent" -> "TestThing" : writeProperty: "string"
+    end
+end
+
+[<-"Agent"
+deactivate "Agent"
+@enduml

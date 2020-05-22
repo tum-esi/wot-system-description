@@ -1,0 +1,196 @@
+@prefix : <https://example.com/wot/sd#> .
+@prefix otd: <https://www.w3.org/2019/wot/td#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix hctl: <https://www.w3.org/2019/wot/hypermedia#> .
+@prefix jsonschema: <https://www.w3.org/2019/wot/json-schema#> .
+
+: rdf:type owl:Ontology ;
+    vann:preferredNamespacePrefix "sd" ;
+    vann:preferredNamespaceUri "https://example.com/wot/sd#" ;
+    owl:versionInfo "0.1.0" ;
+    dc:title "System Description Ontology"@en ;
+    rdfs:comment "This ontology aims to model the enhancements of a Web of Things Thing Description to a System Description"@en ;
+    dcterms:license <http://purl.org/NET/rdflicense/cc-by4.0> ;
+
+:hasPath rdf:type owl:ObjectProperty ;
+    rdfs:label "hasPath" ;
+    rdfs:comment "Application logic to be executed sequentially"@en ;
+    schema:rangeIncludes :PathElement ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:isPathElement rdf:type owl:ObjectProperty ;
+    rdfs:label "isPathElement" ;
+    rdfs:comment "one executable task in the Path array"@en ;
+    schema:rangeIncludes :PathElement ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:isPathObjReceive rdf:type owl:ObjectProperty ;
+    rdfs:label "isPathObjReceive" ;
+    rdfs:subPropertyOf :isPathElement
+    rdfs:comment "is receiving interaction path element"@en ;
+    schema:rangeIncludes :PathObjReceive ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:isPathObjSend rdf:type owl:ObjectProperty ;
+    rdfs:label "isPathObjSend" ;
+    rdfs:subPropertyOf :isPathElement
+    rdfs:comment "is sending interaction path element"@en ;
+    schema:rangeIncludes :PathObjReceive ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:isPathObjCase rdf:type owl:ObjectProperty ;
+    rdfs:label "isPathObjCase" ;
+    rdfs:subPropertyOf :isPathElement
+    rdfs:comment "is case path element"@en ;
+    schema:rangeIncludes :PathObjReceive ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:isPathObjLoop rdf:type owl:ObjectProperty ;
+    rdfs:label "isPathObjLoop" ;
+    rdfs:subPropertyOf :isPathElement
+    rdfs:comment "is loop path element"@en ;
+    schema:rangeIncludes :PathObjReceive ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:isPathObjGetSet rdf:type owl:ObjectProperty ;
+    rdfs:label "isPathObjGetSet" ;
+    rdfs:subPropertyOf :isPathElement
+    rdfs:comment "is a get set path element"@en ;
+    schema:rangeIncludes :PathObjGetSet ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:hasPathPropGet rdf:type owl:ObjectProperty ;
+    rdfs:label "hasPathPropGet" ;
+    rdfs:comment "has a get object as property"@en ;
+    schema:rangeIncludes :PathPropGet ;
+    rdfs:isDefinedBy : .
+
+:hasPathPropSet rdf:type owl:ObjectProperty ;
+    rdfs:label "hasPathPropSet" ;
+    rdfs:comment "has a set object as property"@en ;
+    schema:rangeIncludes :PathPropSet ;
+    rdfs:isDefinedBy : .
+
+:hasFunctions rdf:type owl:ObjectProperty ;
+    rdfs:label "hasFunctions" ;
+    rdfs:comment "Application logic to be executed on internal reference"@en ;
+    schema:rangeIncludes :thingToInteractWith ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:hasThingsToInteractWith rdf:type owl:ObjectProperty ;
+    rdfs:label "hasThingsToInteractWith" ;
+    rdfs:comment "All Thing Descriptions (or their fragments) to interact with in a Mashup."@en ;
+    schema:rangeIncludes :ThingToInteractWith ;
+    schema:domainIncludes :Thing ;
+    rdfs:isDefinedBy : .
+
+:hasDefaultInput rdf:type owl:ObjectProperty ;
+    rdfs:label "hasDefaultInput" ;
+    rdfs:comment "TODO"@en ;
+    schema:rangeIncludes :DefaultInput ;
+    rdfs:isDefinedBy : .
+
+:hasOutput rdf:type owl:ObjectProperty ;
+    rdfs:label "hasOutput" ;
+    rdfs:comment "A case path object has a specified output for comparison."@en ;
+    schema:rangeIncludes :DefaultInput ;
+    rdfs:isDefinedBy : .
+
+:not rdf:type owl:ObjectProperty ;     
+    rdfs:label "not" ;
+    rdfs:comment "Used to ensure that the data is not valid against the specified schema in the object."@en ;
+    schema:domainIncludes jsonschema:DataSchema ;
+    schema:rangeIncludes jsonschema:DataSchema .
+
+:PathElement rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathElement" ;
+    rdfs:comment "TODO"@en ;
+    rdfs:isDefinedBy  : .
+
+:PathObjReceive rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathObjReceive" ;
+    rdfs:subClassOf :PathElement ;
+    rdfs:comment "Receiving (from Mashup perspective) interaction to be executed at Path Object execution."@en ;
+    rdfs:isDefinedBy : .
+
+:PathObjSend rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathObjSend" ;
+    rdfs:subClassOf :PathElement ;
+    rdfs:comment "Sending (from Mashup perspective) interaction to be executed at Path Object execution."@en ;
+    rdfs:isDefinedBy : .
+
+:PathObjCase rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathObjCase" ;
+    rdfs:subClassOf :PathElement ;
+    rdfs:comment "Conditional execution element containing two alternative Path Arrays from which one is executed determined by a condition."@en ;
+    rdfs:isDefinedBy : .
+
+:PathObjLoop rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathObjLoop" ;
+    rdfs:subClassOf :PathElement ;
+    rdfs:comment "Loop path element, contained path array is defined to be executed ."@en ;
+    rdfs:isDefinedBy : .
+
+:PathObjGetSet rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathObjGetSet" ;
+    rdfs:subClassOf :PathElement ;
+    rdfs:comment "Get a value by the get object or defaultInput and set another variable to the value."@en ;
+    rdfs:isDefinedBy : .
+
+:Function rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "Function" ;
+    rdfs:comment "TODO"@en ;
+    rdfs:isDefinedBy : .
+
+:ThingToInteractWith rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "ThingToInteractWith" ;
+    rdfs:comment "A ThingToInteractWith consists of a Thing Description or their relevant parts, required to interact with every interactionAffordance used in the System Description Application logic"@en ;
+    dcterms:isVersionOf otd:Thing ;
+    rdfs:isDefinedBy : .
+
+:DefaultInput rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "DefaultInput" ;
+    rdfs:comment "TODO"@en ;
+    rdfs:isDefinedBy  : .
+
+:PathPropSet rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathPropSet" ;
+    rdfs:comment "setter function, writes a given (by other Path Elements) value to the specified variable"@en ;
+    rdfs:isDefinedBy  : .
+
+:PathPropGet rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "PathPropGet" ;
+    rdfs:comment "getter function, returns the value of the specified variable (for other Path Elements)"@en ;
+    rdfs:isDefinedBy  : .
+
+:Output rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "Output" ;
+    rdfs:comment "A specified value to compare an input with, in order to retrieve a boolean value about their equality" ;
+    rdfs:isDefinedBy : .
+
+:LoopType rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "LoopType"@en ;
+    rdfs:comment "The type of a loop, can be logical referring to a number of executions (or endless), or periodically"@en ;
+    rdfs:isDefinedBy : .
+
+:Mashup rdf:type rdfs:Class, owl:Class ;
+    rdfs:label "Mashup"@en ;
+    rdfs:comment "A virtual entity, consisting of an application logic representation and the composition of one or more Things to interact with. The application logic indluding interactions with the Things is represented by a WoT System Description."@en ;
+    rdfs:isDefinedBy : .

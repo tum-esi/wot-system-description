@@ -1,0 +1,807 @@
+[
+    {
+        "id": "de:tum:ei:esi:dotstar:192.168.0.103:8080",
+        "@context": [
+            "https://www.w3.org/2019/wot/td/v1",
+            {
+                "@language": "en"
+            }
+        ],
+        "properties": {
+            "stats": {
+                "type": "object",
+                "readOnly": true,
+                "writeOnly": false,
+                "description": "Get detailed information about the current state of the LED strip.",
+                "title": "LED Stats",
+                "properties": {
+                    "nr_of_leds": {
+                        "type": "integer"
+                    },
+                    "led_colors": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                },
+                                {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                },
+                                {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                }
+                            ]
+                        }
+                    },
+                    "nr_of_leds_on": {
+                        "type": "integer",
+                        "maximum": 118,
+                        "minimum": 0
+                    },
+                    "brightness": {
+                        "type": "integer",
+                        "maximum": 100,
+                        "minimum": 0,
+                        "unit": "%"
+                    }
+                },
+                "forms": [
+                    {
+                        "op": "readproperty",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/properties/stats"
+                    }
+                ]
+            },
+            "brightness": {
+                "type": "integer",
+                "readOnly": false,
+                "forms": [
+                    {
+                        "op": [
+                            "readproperty",
+                            "writeproperty"
+                        ],
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/properties/brightness"
+                    }
+                ],
+                "unit": "%",
+                "description": "Set all LEDs to the same brightness between 0 and 100%.",
+                "maximum": 100,
+                "title": "LED Brightness",
+                "writeOnly": false,
+                "minimum": 0
+            }
+        },
+        "actions": {
+            "fill_upper": {
+                "description": "Light all the LEDs in the upper band with the same color.",
+                "input": {
+                    "type": "object",
+                    "required": [
+                        "red",
+                        "green",
+                        "blue"
+                    ],
+                    "properties": {
+                        "blue": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "red": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "green": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        }
+                    }
+                },
+                "safe": false,
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/fill_upper"
+                    }
+                ],
+                "idempotent": true
+            },
+            "random": {
+                "description": "Light up all LEDs with random colors.",
+                "safe": false,
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/random"
+                    }
+                ],
+                "idempotent": false
+            },
+            "fill_lower": {
+                "description": "Light all the LEDs in the lower band with the same color.",
+                "input": {
+                    "type": "object",
+                    "required": [
+                        "red",
+                        "green",
+                        "blue"
+                    ],
+                    "properties": {
+                        "blue": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "red": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "green": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        }
+                    }
+                },
+                "safe": false,
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/fill_lower"
+                    }
+                ],
+                "idempotent": true
+            },
+            "fill": {
+                "description": "Light all the LEDs with same color.",
+                "input": {
+                    "type": "object",
+                    "required": [
+                        "red",
+                        "green",
+                        "blue"
+                    ],
+                    "properties": {
+                        "blue": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "red": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "green": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        }
+                    }
+                },
+                "safe": false,
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/fill"
+                    }
+                ],
+                "idempotent": true
+            },
+            "shutdown": {
+                "description": "Turn off all the LEDs.",
+                "safe": false,
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/shutdown"
+                    }
+                ],
+                "idempotent": true
+            },
+            "fill_array": {
+                "type": "object",
+                "input": {
+                    "type": "object",
+                    "required": [
+                        "ledBegin",
+                        "ledEnd",
+                        "color"
+                    ],
+                    "properties": {
+                        "ledBegin": {
+                            "type": "integer",
+                            "maximum": 118,
+                            "minimum": 0
+                        },
+                        "ledEnd": {
+                            "type": "integer",
+                            "maximum": 118,
+                            "minimum": 0
+                        },
+                        "color": {
+                            "type": "object",
+                            "required": [
+                                "red",
+                                "green",
+                                "blue"
+                            ],
+                            "properties": {
+                                "blue": {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                },
+                                "red": {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                },
+                                "green": {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                "safe": false,
+                "idempotent": true,
+                "description": "Light the LEDs in between given numbers with same color.",
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/fill_array"
+                    }
+                ]
+            },
+            "fill_middle": {
+                "description": "Light all the LEDs in the middle band with the same color.",
+                "input": {
+                    "type": "object",
+                    "required": [
+                        "red",
+                        "green",
+                        "blue"
+                    ],
+                    "properties": {
+                        "blue": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "red": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        },
+                        "green": {
+                            "type": "integer",
+                            "maximum": 255,
+                            "minimum": 0
+                        }
+                    }
+                },
+                "safe": false,
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/fill_middle"
+                    }
+                ],
+                "idempotent": true
+            },
+            "dot": {
+                "description": "Light a specific single LED with the given RGB color.",
+                "input": {
+                    "type": "object",
+                    "required": [
+                        "led",
+                        "color"
+                    ],
+                    "properties": {
+                        "led": {
+                            "type": "integer",
+                            "maximum": 118,
+                            "minimum": 0
+                        },
+                        "color": {
+                            "type": "object",
+                            "required": [
+                                "red",
+                                "green",
+                                "blue"
+                            ],
+                            "properties": {
+                                "blue": {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                },
+                                "red": {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                },
+                                "green": {
+                                    "type": "integer",
+                                    "maximum": 255,
+                                    "minimum": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                "safe": false,
+                "forms": [
+                    {
+                        "op": "invokeaction",
+                        "contentType": "application/json",
+                        "href": "http://192.168.0.103:8080/actions/dot"
+                    }
+                ],
+                "idempotent": true
+            }
+        },
+        "description": "A strip of 118 RGB LEDs that can be controlled remotely.",
+        "title": "DotStarRGBLEDstrip",
+        "security": "nosec_sc",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec"
+            }
+        }
+    },
+    {
+        "@context": [ "https://www.w3.org/2019/wot/td/v1", {
+            "@language": "en"
+        } ],
+        "@type": "Thing",
+        "title": "SenseHat",
+        "description": "Raspberry Pi SenseHat",
+        "securityDefinitions": {
+            "nosec_sc": {
+                "scheme": "nosec"
+            }
+        },
+        "security": "nosec_sc",
+        "properties": {
+            "displayRotation": {
+                "type": "integer",
+                "readOnly": false,
+                "writeOnly": false,
+                "description": "The roation of the display. 0 is whith the HDMI port facing down.",
+                "enum": [ 0, 90, 180, 270 ],
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/displayRotation",
+                    "contentType": "application/json",
+                    "op": [ "readproperty", "writeproperty" ]
+                } ]
+            },
+            "pixels": {
+                "type": "array",
+                "minItems": 64,
+                "maxItems": 64,
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 255
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                },
+                "readOnly": false,
+                "writeOnly": false,
+                "description": "An array containing the current colours of all LEDs.",
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/pixels",
+                    "contentType": "application/json",
+                    "op": [ "readproperty", "writeproperty" ]
+                } ]
+            },
+            "lowLight": {
+                "type": "boolean",
+                "readOnly": false,
+                "writeOnly": false,
+                "description": "The LED Matrix low light mode.",
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/lowLight",
+                    "contentType": "application/json",
+                    "op": [ "readproperty", "writeproperty" ]
+                } ]
+            },
+            "humidity": {
+                "type": "number",
+                "description": "The percentage of relative humidity.",
+                "readOnly": true,
+                "writeOnly": false,
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/humidity",
+                    "contentType": "application/json",
+                    "op": [ "readproperty" ],
+                    "htv:methodName": "GET"
+                } ]
+            },
+            "temperature": {
+                "type": "number",
+                "description": "The current temperature in degrees Celsius.",
+                "readOnly": true,
+                "writeOnly": false,
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/temperature",
+                    "contentType": "application/json",
+                    "op": [ "readproperty" ],
+                    "htv:methodName": "GET"
+                } ]
+            },
+            "pressure": {
+                "type": "number",
+                "description": "The current pressure in Millibars.",
+                "readOnly": true,
+                "writeOnly": false,
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/pressure",
+                    "contentType": "application/json",
+                    "op": [ "readproperty" ],
+                    "htv:methodName": "GET"
+                } ]
+            },
+            "gyro": {
+                "type": "object",
+                "description": "Get 3 Floats representing the rotational intensity of each axis in rads/second.",
+                "readOnly": true,
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "z": {
+                        "type": "number"
+                    }
+                },
+                "writeOnly": false,
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/gyro",
+                    "contentType": "application/json",
+                    "op": [ "readproperty" ],
+                    "htv:methodName": "GET"
+                } ]
+            },
+            "accel": {
+                "type": "object",
+                "description": "Get 3 Floats representing the acceleration intensity of each axis in Gs",
+                "readOnly": true,
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "z": {
+                        "type": "number"
+                    }
+                },
+                "writeOnly": false,
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/accel",
+                    "contentType": "application/json",
+                    "op": [ "readproperty" ],
+                    "htv:methodName": "GET"
+                } ]
+            },
+            "compass": {
+                "type": "object",
+                "description": "Get 3 Floats representing the magnetic intensity of the axis in microteslas.",
+                "readOnly": true,
+                "properties": {
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "z": {
+                        "type": "number"
+                    }
+                },
+                "writeOnly": false,
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/compass",
+                    "contentType": "application/json",
+                    "op": [ "readproperty" ],
+                    "htv:methodName": "GET"
+                } ]
+            },
+            "eventHistory": {
+                "type": "array",
+                "description": "An array containing the complete event history.",
+                "readOnly": true,
+                "items": {
+                    "type": "string"
+                },
+                "writeOnly": false,
+                "observable": false,
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/properties/eventHistory",
+                    "contentType": "application/json",
+                    "op": [ "readproperty" ],
+                    "htv:methodName": "GET"
+                } ]
+            }
+        },
+        "actions": {
+            "flipH": {
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/actions/flipH",
+                    "contentType": "application/json",
+                    "op": [ "invokeaction" ],
+                    "htv:methodName": "POST"
+                } ],
+                "idempotent": false,
+                "safe": false
+            },
+            "flipV": {
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/actions/flipV",
+                    "contentType": "application/json",
+                    "op": [ "invokeaction" ],
+                    "htv:methodName": "POST"
+                } ],
+                "idempotent": false,
+                "safe": false
+            },
+            "showMessage": {
+                "input": {
+                    "type": "object",
+                    "description": "The message to show. May include the scrolling speed and text/background colours.",
+                    "properties": {
+                        "textString": {
+                            "type": "string"
+                        },
+                        "scrollSpeed": {
+                            "type": "number"
+                        },
+                        "textColour": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                        },
+                        "backColour": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                        }
+                    },
+                    "required": [ "textString" ]
+                },
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/actions/showMessage",
+                    "contentType": "application/json",
+                    "op": [ "invokeaction" ],
+                    "htv:methodName": "POST"
+                } ],
+                "idempotent": false,
+                "safe": false
+            },
+            "showLetter": {
+                "input": {
+                    "type": "object",
+                    "description": "The letter to show. May include text/background colours.",
+                    "properties": {
+                        "s": {
+                            "type": "string"
+                        },
+                        "textColour": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                        },
+                        "backColour": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                        }
+                    },
+                    "required": [ "s" ]
+                },
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/actions/showLetter",
+                    "contentType": "application/json",
+                    "op": [ "invokeaction" ],
+                    "htv:methodName": "POST"
+                } ],
+                "idempotent": false,
+                "safe": false
+            },
+            "flashMessage": {
+                "input": {
+                    "type": "object",
+                    "description": "The message to show. May include the flashing speed and text/background colours.",
+                    "properties": {
+                        "textString": {
+                            "type": "string"
+                        },
+                        "speed": {
+                            "type": "number"
+                        },
+                        "textColour": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                        },
+                        "backColour": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                        }
+                    },
+                    "required": [ "textString" ]
+                },
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/actions/flashMessage",
+                    "contentType": "application/json",
+                    "op": [ "invokeaction" ],
+                    "htv:methodName": "POST"
+                } ],
+                "idempotent": false,
+                "safe": false
+            },
+            "setPixel": {
+                "input": {
+                    "type": "object",
+                    "description": "Set the pixel in the given (x,y) coordinates to a given RGB color.",
+                    "properties": {
+                        "x": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 7
+                        },
+                        "y": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 7
+                        },
+                        "r": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "g": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "b": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        }
+                    },
+                    "required": [ "textString" ]
+                },
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/actions/setPixel",
+                    "contentType": "application/json",
+                    "op": [ "invokeaction" ],
+                    "htv:methodName": "POST"
+                } ],
+                "idempotent": false,
+                "safe": false
+            },
+            "clear": {
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/actions/clear",
+                    "contentType": "application/json",
+                    "op": [ "invokeaction" ],
+                    "htv:methodName": "POST"
+                } ],
+                "idempotent": false,
+                "safe": false
+            }
+        },
+        "events": {
+            "joystickPress": {
+                "type": "string",
+                "enum": [ "left", "right", "up", "down", "click" ],
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/events/joystickPress",
+                    "contentType": "application/json",
+                    "subprotocol": "longpoll",
+                    "op": [ "subscribeevent" ]
+                } ]
+            },
+            "joystickRelease": {
+                "type": "string",
+                "enum": [ "left", "right", "up", "down", "click" ],
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/events/joystickRelease",
+                    "contentType": "application/json",
+                    "subprotocol": "longpoll",
+                    "op": [ "subscribeevent" ]
+                } ]
+            },
+            "joystickHold": {
+                "type": "string",
+                "enum": [ "left", "right", "up", "down", "click" ],
+                "forms": [ {
+                    "href": "http://192.168.0.106:8080/SenseHat/events/joystickHold",
+                    "contentType": "application/json",
+                    "subprotocol": "longpoll",
+                    "op": [ "subscribeevent" ]
+                } ]
+            }
+        },
+        "id": "de:tum:ei:esi:sensehat:192.168.0.106",
+        "forms": [ {
+            "href": "http://192.168.0.106:8080/SenseHat/all/properties",
+            "contentType": "application/json",
+            "op": [ "readallproperties", "readmultipleproperties", "writeallproperties", "writemultipleproperties" ]
+        } ]
+    }
+]

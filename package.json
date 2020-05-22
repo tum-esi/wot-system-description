@@ -1,0 +1,43 @@
+{
+  "name": "wot-mashups",
+  "version": "1.0.0",
+  "description": "Web of Things (WoT) Mashup management",
+  "main": "./dist/main.js",
+  "scripts": {
+    "test": "npm run build & npm start",
+    "build": "tsc",
+    "start": "node ./dist/src/main.js",
+    "code": "node ./dist/src/callCode.js",
+    "clean": "rm -rf node_modules; rm -rf dist; rm -rf package-lock.json",
+    "createSD": "npm run build & node ./dist/src/manualSD.js",
+    "testAll": "npm run testEvalSd & npm run testSeqD & npm run testSD & npm run testRedCart & npm run testDobot & npm run testGateway",
+    "testSeqD": "npm run build  & npm start \"./example-input/SeqD-examples/SeqDs\" \"./example-input/SeqD-examples/TDs.json\" & tsc -b ./created-output/SeqD-examples/tsconfig.json",
+    "testSD": "npm run build  & npm start \"./example-input/SD-examples/SDs\" tsc -b ./created-output/SD-examples/tsconfig.json",
+    "testRedCart": "npm run build  & npm start \"./example-input/Evaluation/RedCart/SeqDs\" \"./example-input/Evaluation/RedCart/TDs.json\" & tsc -b ./created-output/Evaluation/RedCart/tsconfig.json",
+    "testDobot": "npm run build  & npm start \"./example-input/Evaluation/DoBot/SeqDs\" \"./example-input/Evaluation/DoBot/TDs.json\" & tsc -b ./created-output/Evaluation/DoBot/tsconfig.json",
+    "testGateway": "npm run build  & npm start \"./example-input/Evaluation/Gateway/SeqDs\" \"./example-input/Evaluation/Gateway/TDs.json\" & tsc -b ./created-output/Evaluation/Gateway/tsconfig.json",
+    "testEvalSd": "npm run build  & npm start \"./example-input/Evaluation/Gateway/SDs\" & npm start \"./example-input/Evaluation/RedCart/SDs\" & npm start \"./example-input/Evaluation/DoBot/SDs\" "
+  },
+  "author": {
+    "name": "TUM-ESI"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tum-esi/wot-system-description"
+  },
+  "license": "",
+  "devDependencies": {
+    "@types/node": "^13.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "eslint": "^6.8.0",
+    "typescript": "^3.7.5",
+    "wot-typescript-definitions": "^0.7.1-SNAPSHOT.1"
+  },
+  "dependencies": {
+    "@node-wot/binding-http": "^0.7.0-SNAPSHOT.6",
+    "@node-wot/core": "^0.7.0-SNAPSHOT.6",
+    "ajv": "^6.11.0",
+    "js-beautify": "^1.10.3"
+  }
+}

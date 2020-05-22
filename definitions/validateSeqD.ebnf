@@ -1,0 +1,61 @@
+mashup ::= diagram+
+diagram ::= header content footer
+header ::= '@startuml' S Title L '[' '->' '"Agent"' ':' S Diatype ':' Title '()' L 'activate' S '"Agent"' L
+footer ::= '[<-' '"Agent"' L 'deactivate' S '"Agent"' L '@enduml' L?
+content ::= (loop
+           | wait
+           | condition
+           | interaction
+           | getset
+           | ref)+
+loop ::= 'loop' S ( 'every' S Nr 'ms' | 'forever' | Nr 'x' ) L content 'end' L
+wait ::= '...' S 'wait' S Nr 'ms' S '...' L
+condition ::= 'alt' S comparison L content 'else else' L content? 'end' L
+comparison ::= ('not(' S? comparison S? ')')
+             | ('allOf(' S? comparison (S? ',' S? comparison)* S? ')')
+             | ('oneOf(' S? comparison (S? ',' S? comparison)* S? ')')
+             | ('anyOf(' S? comparison (S? ',' S? comparison)* S? ')')
+             | (('variable' | 'property') S VarName (S '==' S ( 'true' | 'false' | '"' Char* '"' | Nr | ('variable' | 'property') S VarName ))? )
+interaction ::= 'group' S 'strict' L interactionRecCont interactionSendCont 'end' L
+interactionRecCont ::= 'par' L (interactionReceive ('else' L)?)* ('break' S 'data-pushed' L 'end' L)? 'end' L
+interactionSendCont ::= 'par' L (interactionSend ('else' L)?)* 'end' L
+interactionReceive ::= getset? interactionPre ( receiveSubs | receiveInv | receiveObs | receiveRead ) getset?
+interactionSend ::= getset? interactionPre ( sendWrite | sendInv ) sendPost getset?
+interactionPre ::= '"Agent"' S '->' S interactionTo S ':' S
+receiveRead ::= 'readProperty:' receiveMiddle readResponse L deactTo L
+receiveSubs ::= 'subscribeEvent:' receiveSubsObsPost
+receiveObs ::= 'observeProperty:' receiveSubsObsPost
+receiveInv ::= 'invokeAction:' receiveMiddle invConfirmation L deactTo L
+receiveSubsObsPost ::= receiveMiddle subsObsConfirmation L subsObsData L
+receiveMiddle ::= S interactionName L actTo L
+sendWrite ::= 'writeProperty:'
+sendInv ::= 'invokeAction:'
+sendPost ::= S interactionName L
+readResponse ::= interactionTo S '-' '->' S '"Agent"' S ':' S 'response'
+subsObsConfirmation ::= interactionTo S '-->' S '"Agent"' S ':' S 'confirmation'
+subsObsData ::= interactionTo S '->' '>' S '"Agent"' S ':' S 'data-pushed'
+invConfirmation ::= interactionTo S '-' '->' S '"Agent"' S ':' S 'output'
+actTo ::= 'activate' S interactionTo
+deactTo ::= 'deactivate' S interactionTo
+interactionTo ::=  '"' Ntitle '"'
+interactionName ::= '"' Ntitle '"'
+safetitle ::= '"' Title '"'
+getset ::= 'note' S 'over' S ('"')? 'Agent' ('"')? L
+           (((('get'|'set') S ('variable' | 'property') S VarName ) | ('defaultInput' S ('true' | 'false' | '"' Char* '"' | Nr | '{' Nchar* '}' ))) L)+
+           'end' S 'note' L
+ref ::= 'ref' S 'over' S ('"')? 'Agent' ('"')? L
+        ('function'|'action') ':' VarName L 
+        'end' S 'ref' L
+
+<?TOKENS?>
+
+L ::= S? (#x000A
+    | #x000D #x000A?)+ S?
+S        ::= [#x0020#x0009]+
+Title    ::= [a-zA-Z] [a-zA-Z0-9]+
+Ntitle ::= [a-zA-Z] ([a-zA-Z0-9] | '-' | '_')+
+Nchar ::= (Char | '"') - '}'
+Diatype  ::= ('top'|'action'|'property'|'function')
+VarName  ::= ([a-zA-Z] [a-zA-Z0-9]*) - ('false' | 'true')
+Char	   ::= [https://www.w3.org/TR/REC-xml/#NT-Char] - '"'
+Nr       ::= [0-9]*
