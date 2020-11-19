@@ -1,10 +1,8 @@
 /* eslint-disable */
-// import "./sdToSeqD";
 import checkSD from './validateSd';
 import { SQSD } from '../definitions/defs';
 import parseSD from './parseSD';
 import generateTS from './codeGen';
-// import generateSD from "./generateSD";
 import generateSeqD from './generateSeqD';
 import * as ts from 'typescript';
 
