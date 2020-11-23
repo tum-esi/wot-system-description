@@ -1,6 +1,5 @@
 const args = process.argv.slice(2)
 
-import "./sdToSeqD"
 import fs = require( "fs" )
 import checkSD from "./validateSd"
 import { SQSD } from "../definitions/defs"
