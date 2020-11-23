@@ -1883,11 +1883,11 @@ function validateSeqD(string)
       {
         if (c0 < 0xdc00)
         {
-          var c1 = current < size ? input.charCodeAt(current) : 0;
-          if (c1 >= 0xdc00 && c1 < 0xe000)
+          var c1_a = current < size ? input.charCodeAt(current) : 0;
+          if (c1_a >= 0xdc00 && c1_a < 0xe000)
           {
             ++current;
-            c0 = ((c0 & 0x3ff) << 10) + (c1 & 0x3ff) + 0x10000;
+            c0 = ((c0 & 0x3ff) << 10) + (c1_a & 0x3ff) + 0x10000;
           }
         }
 
@@ -1917,8 +1917,8 @@ function validateSeqD(string)
     if (result == 0)
     {
       end = current - 1;
-      var c1 = end < size ? input.charCodeAt(end) : 0;
-      if (c1 >= 0xdc00 && c1 < 0xe000) --end;
+      var c1_b = end < size ? input.charCodeAt(end) : 0;
+      if (c1_b >= 0xdc00 && c1_b < 0xe000) --end;
       return error(begin, end, state, -1, -1);
     }
 
@@ -1930,7 +1930,7 @@ function validateSeqD(string)
 
 validateSeqD.getTokenSet = function(tokenSetId)
 {
-  var set = [];
+  var set: string[] = [];
   var s = tokenSetId < 0 ? - tokenSetId : validateSeqD.INITIAL[tokenSetId] & 511;
   for (var i = 0; i < 71; i += 32)
   {
