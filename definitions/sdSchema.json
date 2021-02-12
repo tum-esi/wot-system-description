@@ -6,7 +6,7 @@
     "definitions": {
         "tdValidation": {
             "$id": "#tdSchema",
-            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/playground-core/td-schema.json",
+            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/core/td-schema.json",
             "description": "A schema to validate that the system description is a valid thing description, this schema is preferred over the one mentioned in the WoT-TD standard, because 'iri-reference' format is replaced with 'uri-reference', which is understood by the used json-schema-validator."
         },
         "variable": {
@@ -595,7 +595,7 @@
                                 "additionalProperties": {
                                     "allOf": [
                                         {
-                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/playground-core/td-schema.json#/definitions/event_element"
+                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/core/td-schema.json#/definitions/event_element"
                                         },
                                         {
                                             "$ref": "#/definitions/eventPropertyAction"
@@ -608,7 +608,7 @@
                                 "additionalProperties": {
                                     "allOf": [
                                         {
-                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/playground-core/td-schema.json#/definitions/action_element"
+                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/core/td-schema.json#/definitions/action_element"
                                         },
                                         {
                                             "$ref": "#/definitions/eventPropertyAction"
@@ -621,7 +621,7 @@
                                 "additionalProperties": {
                                     "allOf": [
                                         {
-                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/playground-core/td-schema.json#/definitions/property_element"
+                                            "$ref": "https://raw.githubusercontent.com/thingweb/thingweb-playground/master/packages/core/td-schema.json#/definitions/property_element"
                                         },
                                         {
                                             "$ref": "#/definitions/eventPropertyAction"
