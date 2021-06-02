@@ -3,7 +3,21 @@ A project to improve the management of Mashups in the Web of Things. We provide 
 
 ## Citing this repository
 
-If you use this repository for scientific purposes please cite the paper `Web of Things System Description for Representation of Mashups` that will be presented at [COINS2020](https://coinsconf.com/). The mentions in the paper are further explained in the `./paper-mentions` folder.
+If you use this repository for scientific purposes please cite the paper `Web of Things System Description for Representation of Mashups` that is presented at [COINS2020](https://coinsconf.com/). You can also use the bibtex entry below:
+
+
+```
+@inproceedings{kkks:2020,    
+    author           = {Adrian Kast and Ege Korkan and Sebastian Kaebisch and Sebastian Steinhorst},
+    title            = {Web of Things System Description for Representation of Mashups},
+    booktitle        = {2020 International Conference on Omni-layer Intelligent Systems (COINS)},
+    location         = {Barcelona, Spain},
+    year             = {2020},
+    month            = {9},
+    doi              = {10.1109/COINS49042.2020.9191677},
+    url              = {https://s-steinhorst.github.io/PDF/2020-COINS-Web%20of%20Things%20System%20Description%20for%20Representation%20of%20Mashups.pdf},
+}
+```
 
 ## General comments
 
