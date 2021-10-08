@@ -26,8 +26,8 @@ import { sdToTd } from "./util"
  */
 export default function generateTS(SD: SQSD.sdTemplate, mashupLogic: SQSD.mashupLogic, fName: string) {
 
-    const varPrefix = "mavar"
-    const propPrefix = "mapro"
+    const varPrefix = "maVar"
+    const propPrefix = "maPro"
     let customCount = 0
     const customDataPush = {}
     let customDataPushCount = 0

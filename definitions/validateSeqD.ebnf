@@ -15,7 +15,10 @@ comparison ::= ('not(' S? comparison S? ')')
              | ('allOf(' S? comparison (S? ',' S? comparison)* S? ')')
              | ('oneOf(' S? comparison (S? ',' S? comparison)* S? ')')
              | ('anyOf(' S? comparison (S? ',' S? comparison)* S? ')')
-             | (('variable' | 'property') S VarName (S '==' S ( 'true' | 'false' | '"' Char* '"' | Nr | ('variable' | 'property') S VarName ))? )
+             | comparisonAtom
+comparisonAtom ::=  comparisonEquality | comparisonInequality
+comparisonEquality ::= (('variable' | 'property') S VarName (S '==' S ( 'true' | 'false' | '"' Char* '"' | Nr | ('variable' | 'property') S VarName ))? )
+comparisonInequality ::= ('variable' | 'property') S VarName (S ('>' | '>=' | '<' | '<=' ) S ( Nr | ('variable' | 'property') S VarName ))
 interaction ::= 'group' S 'strict' L interactionRecCont interactionSendCont 'end' L
 interactionRecCont ::= 'par' L (interactionReceive ('else' L)?)* ('break' S 'data-pushed' L 'end' L)? 'end' L
 interactionSendCont ::= 'par' L (interactionSend ('else' L)?)* 'end' L
@@ -57,5 +60,5 @@ Ntitle ::= [a-zA-Z] ([a-zA-Z0-9] | '-' | '_')+
 Nchar ::= (Char | '"') - '}'
 Diatype  ::= ('top'|'action'|'property'|'function')
 VarName  ::= ([a-zA-Z] [a-zA-Z0-9]*) - ('false' | 'true')
-Char	   ::= [https://www.w3.org/TR/REC-xml/#NT-Char] - '"'
+Char    ::= (#x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]) - '"'
 Nr       ::= [0-9]*
