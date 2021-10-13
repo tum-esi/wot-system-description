@@ -138,7 +138,7 @@
                                     "$ref": "#/definitions/varRef"
                                 },
                                 "output": {
-                                    "description": "value to compare with (==)",
+                                    "description": "value to compare with",
                                     "oneOf": [
                                         {
                                             "type": [
@@ -150,6 +150,11 @@
                                             "$ref": "#/definitions/varRef"
                                         }
                                     ]
+                                },
+                                "operator":{
+                                    "description":"comparison operator",
+                                    "type":"string",
+                                    "enum":["==",">","<",">=","<="]
                                 }
                             },
                             "required": [
