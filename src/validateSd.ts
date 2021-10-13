@@ -12,13 +12,13 @@ const schema = JSON.parse(fs.readFileSync(schemaFilePath, "utf8"))
 export default function checkSD(sdFileContent: string, checkRequired = true) {
     return new Promise( (res, rej) => {
         if (checkRequired === false) {
-            res()
+            res(true)
         } else {
             const SD = JSON.parse(sdFileContent)
             let valid
             ajv.compileAsync(schema).then( validation => {
                                         valid = validation(SD)
-                                        if (valid) {res()}
+                                        if (valid) {res(true)}
                                         else {rej('!!!???!!! SD Invalid: ' + ajv.errorsText(validation.errors))}
                                     })
         }

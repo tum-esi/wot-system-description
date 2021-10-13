@@ -26,8 +26,8 @@ import { sdToTd } from "./util"
  */
 export default function generateTS(SD: SQSD.sdTemplate, mashupLogic: SQSD.mashupLogic, fName: string) {
 
-    const varPrefix = "mavar"
-    const propPrefix = "mapro"
+    const varPrefix = "maVar"
+    const propPrefix = "maPro"
     let customCount = 0
     const customDataPush = {}
     let customDataPushCount = 0
@@ -509,7 +509,12 @@ export default function generateTS(SD: SQSD.sdTemplate, mashupLogic: SQSD.mashup
             } else if (cond.type === "var") {
                 cOut = composeVarName(cond.variable)
                 if(cond.value) {
-                    cOut = "(" + cOut + " === "
+                    if (cond.operator){
+                        cOut = "(" + cOut + " " + cond.operator +" "
+                    } else {
+                        cOut = "(" + cOut + " === "
+                    }
+
                     if (typeof cond.value === "object") {
                         cOut += composeVarName(cond.value)
                     } else if (typeof cond.value === "string") {

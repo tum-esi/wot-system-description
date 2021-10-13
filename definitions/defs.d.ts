@@ -90,9 +90,12 @@ declare namespace SQSD {
         condition: comparison
     }
 
+    type ComparisonOperators = "==" | ">" | "<" | ">=" | "<="
+
     type comparison = {
         type: "var",
         variable: typeGetSet,
+        operator?: ComparisonOperators
         value?: string | number | typeGetSet
     } | {
         type: "not",
@@ -273,7 +276,8 @@ declare namespace SQSD {
     type ifWord = ofWord |
                     {not: ifWord} |
                     {get: { $ref: string},
-                    output?: typeOutput}
+                    output?: typeOutput
+                    operator?: ComparisonOperators}
 
 
     type pathInteract = {
