@@ -141,10 +141,7 @@
                                     "description": "value to compare with",
                                     "oneOf": [
                                         {
-                                            "type": [
-                                                "number",
-                                                "string"
-                                            ]
+                                            "type":"number"
                                         },
                                         {
                                             "$ref": "#/definitions/varRef"
@@ -159,6 +156,29 @@
                             },
                             "required": [
                                 "get"
+                            ]
+                        },
+                        {
+                            "properties": {
+                                "get": {
+                                    "$ref": "#/definitions/varRef"
+                                },
+                                "output": {
+                                    "description": "value to compare with",
+                                    "oneOf": [
+                                        {
+                                            "type":"string"
+                                        }
+                                    ]
+                                },
+                                "operator":{
+                                    "description":"comparison operator",
+                                    "type":"string",
+                                    "enum":["=="]
+                                }
+                            },
+                            "required": [
+                                "get","output"
                             ]
                         },
                         {
