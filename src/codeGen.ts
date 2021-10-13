@@ -509,7 +509,12 @@ export default function generateTS(SD: SQSD.sdTemplate, mashupLogic: SQSD.mashup
             } else if (cond.type === "var") {
                 cOut = composeVarName(cond.variable)
                 if(cond.value) {
-                    cOut = "(" + cOut + " === "
+                    if (cond.operator){
+                        cOut = "(" + cOut + " " + cond.operator +" "
+                    } else {
+                        cOut = "(" + cOut + " === "
+                    }
+
                     if (typeof cond.value === "object") {
                         cOut += composeVarName(cond.value)
                     } else if (typeof cond.value === "string") {
