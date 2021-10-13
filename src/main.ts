@@ -8,7 +8,7 @@ import parseSD from "./parseSD"
 import generateSeqD from "./generateSeqD"
 import generateSD from "./generateSD"
 import generateTS from "./codeGen"
-import checkSeqD from "./validateSeqD"
+import validateSeqD from "./validateSeqD"
 
 
 const SDCHECK = true
@@ -84,7 +84,7 @@ fs.readdir(inFilesPath, (err, fileNames) => {
 
         } else if (fileType === "puml") {
             // convert Sequence Diagram to SD
-            checkSeqD(inFile).then( ok => {
+            validateSeqD(inFile).then( ok => {
                 console.log({thisFileName},{ok})
                 wholeOutPath = outputPath + "SDs/" + outFileName + ".json"
 

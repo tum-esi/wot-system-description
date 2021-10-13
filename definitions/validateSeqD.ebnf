@@ -18,7 +18,7 @@ comparison ::= ('not(' S? comparison S? ')')
              | comparisonAtom
 comparisonAtom ::=  comparisonEquality | comparisonInequality
 comparisonEquality ::= (('variable' | 'property') S VarName (S '==' S ( 'true' | 'false' | '"' Char* '"' | Nr | ('variable' | 'property') S VarName ))? )
-comparisonInequality ::= ('variable' | 'property') S VarName (S ('>' | '>=' | '<' | '<=' ) S ( Nr | ('variable' | 'property') S VarName ))
+comparisonInequality ::= (('variable' | 'property') S VarName (S ('>' | '>=' | '<' | '<=' ) S ( Nr | ('variable' | 'property') S VarName ))? )
 interaction ::= 'group' S 'strict' L interactionRecCont interactionSendCont 'end' L
 interactionRecCont ::= 'par' L (interactionReceive ('else' L)?)* ('break' S 'data-pushed' L 'end' L)? 'end' L
 interactionSendCont ::= 'par' L (interactionSend ('else' L)?)* 'end' L
