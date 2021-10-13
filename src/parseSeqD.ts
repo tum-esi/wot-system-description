@@ -341,7 +341,107 @@ function wrapStructureLinewise(umlLinewise: string[]) {
                         }
                     }
                 }
-                out = {type: "var", variable, value}
+                out = {type: "var", variable, value, operator: "=="}
+
+            } else if (inC.includes(">=")) {
+                const part1 = inC.split(">=").shift()
+                const part2 = inC.split(">=").pop()
+                if(part1 === undefined || part2 === undefined) {throw new Error("undef part in cond")}
+                const variable = setVar(part1)
+                let value: number | string | SQSD.typeGetSet
+
+                if(part2.startsWith("variable") || part2.startsWith("property")) {
+                    value =  setVar(part2)
+                } else {
+                    try {
+                        value = Number.parseInt(part2,10)
+                    }
+                    catch (err) {
+                        console.log("number condition is no integer?")
+                        try{
+                            value = Number.parseFloat(part2)
+                        }
+                        catch (err2) {
+                            throw new Error("type of comparison def fails,: " + err + " : " + err2)
+                        }
+                    }
+                }
+                out = {type: "var", variable, value, operator: ">="}
+
+            } else if (inC.includes("<=")) {
+                const part1 = inC.split("<=").shift()
+                const part2 = inC.split("<=").pop()
+                if(part1 === undefined || part2 === undefined) {throw new Error("undef part in cond")}
+                const variable = setVar(part1)
+                let value: number | string | SQSD.typeGetSet
+
+                if(part2.startsWith("variable") || part2.startsWith("property")) {
+                    value =  setVar(part2)
+                } else {
+                    try {
+                        value = Number.parseInt(part2,10)
+                    }
+                    catch (err) {
+                        console.log("number condition is no integer?")
+                        try{
+                            value = Number.parseFloat(part2)
+                        }
+                        catch (err2) {
+                            throw new Error("type of comparison def fails,: " + err + " : " + err2)
+                        }
+                    }
+                }
+                out = {type: "var", variable, value, operator: "<="}
+
+            } else if (inC.includes(">") && !(inC.includes(">="))) {
+                const part1 = inC.split(">").shift()
+                const part2 = inC.split(">").pop()
+                if(part1 === undefined || part2 === undefined) {throw new Error("undef part in cond")}
+                const variable = setVar(part1)
+                let value: number | string | SQSD.typeGetSet
+
+                if(part2.startsWith("variable") || part2.startsWith("property")) {
+                    value =  setVar(part2)
+                } else {
+                    try{
+                        value = Number.parseInt(part2,10)
+                    }
+                    catch (err) {
+                        console.log("number condition is no integer?")
+                        try{
+                            value = Number.parseFloat(part2)
+                        }
+                        catch (err2) {
+                            throw new Error("type of comparison def fails,: " + err + " : " + err2)
+                        }
+                    }
+                }
+                out = {type: "var", variable, value, operator: ">"}
+
+            } else if (inC.includes("<") && !(inC.includes(">="))) {
+                const part1 = inC.split("<").shift()
+                const part2 = inC.split("<").pop()
+                if(part1 === undefined || part2 === undefined) {throw new Error("undef part in cond")}
+                const variable = setVar(part1)
+                let value: number | string | SQSD.typeGetSet
+
+                if(part2.startsWith("variable") || part2.startsWith("property")) {
+                    value =  setVar(part2)
+                } else {
+                    try {
+                        value = Number.parseInt(part2,10)
+                    }
+                    catch (err) {
+                        console.log("number condition is no integer?")
+                        try{
+                            value = Number.parseFloat(part2)
+                        }
+                        catch (err2) {
+                            throw new Error("type of comparison def fails,: " + err + " : " + err2)
+                        }
+                    }
+                }
+                out = {type: "var", variable, value, operator: "<"}
 
             } else if (inC.startsWith("variable") || inC.startsWith("property")) {
                 out = {type: "var", variable: setVar(inC)}
