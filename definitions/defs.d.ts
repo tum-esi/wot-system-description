@@ -276,7 +276,8 @@ declare namespace SQSD {
     type ifWord = ofWord |
                     {not: ifWord} |
                     {get: { $ref: string},
-                    output?: typeOutput}
+                    output?: typeOutput
+                    operator?: ComparisonOperators}
 
 
     type pathInteract = {

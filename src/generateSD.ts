@@ -390,6 +390,7 @@ function parseStrctWrapper(
 
               let output
 
+              // Check if type is SQSD.typeGetSet
               if(typeof inS.value === "object") {
                 output = {
                   $ref: "#/" + singToPlural[inS.value.type] + "/" + inS.value.name
@@ -401,7 +402,8 @@ function parseStrctWrapper(
               initIfReq(inS.variable.name, "boolean", inS.variable.type)
               outS = {
                 get:{$ref: "#/" + singToPlural[inS.variable.type] + "/" + inS.variable.name},
-                output
+                output: output,
+                operator: inS.operator
               }
             } else {
               throw new Error("strange if")
