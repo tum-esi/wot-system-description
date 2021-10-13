@@ -90,9 +90,12 @@ declare namespace SQSD {
         condition: comparison
     }
 
+    type ComparisonOperators = "==" | ">" | "<" | ">=" | "<="
+
     type comparison = {
         type: "var",
         variable: typeGetSet,
+        operator?: ComparisonOperators
         value?: string | number | typeGetSet
     } | {
         type: "not",
