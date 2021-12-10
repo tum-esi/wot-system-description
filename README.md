@@ -1,6 +1,8 @@
-# Mashups in the Web of Things (WoT)
+# Web of Things (WoT) System Description
 
-A project to improve the management of Mashups in the Web of Things. We provide conversion functions to convert a System Description representation of a WoT Mashup into a Sequence Diagram representation and also the other way around. Furthermore, this project includes automatic code generation to create an Servient, which implements a given Mashups application logic, utilizing the [node-wot.thingweb](https://github.com/eclipse/thingweb.node-wot) packages.
+A proposal to improve the management of Mashups in the Web of Things, called the System Description. 
+We provide conversion functions to convert a System Description representation of a WoT Mashup into a Sequence Diagram representation and also the other way around. 
+Furthermore, this project includes automatic code generation to create an Servient, which implements a given Mashups application logic, utilizing the [node-wot.thingweb](https://github.com/eclipse/thingweb.node-wot) packages.
 
 ## Citing this repository
 
