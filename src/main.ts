@@ -7,20 +7,25 @@ import generateSeqD from "./generateSeqD"
 import generateSD from "./generateSD"
 import generateTS from "./codeGen"
 import validateSeqD from "./validateSeqD"
-const inquirer = require("inquirer");
+const inquirer = require("inquirer")
 
-const questions = [
+enum genType {
+    SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION,
+    SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM,
+}
+
+let questions = [
     {
         type: "list",
-        name: "generationType",
+        name: "genType",
         message: "What's your desired generation type?",
         choices: ["Sequence Diagram -> System Description", "System Description -> Sequence Diagram"],
         filter(val) {
             if (val === "Sequence Diagram -> System Description") {
-                return 0;
+                return genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
             }
-            return 1;
-        },
+            return genType.SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM
+        }
     },
     {
         type: "input",
@@ -28,8 +33,8 @@ const questions = [
         message: "Path to folder containing your Sequence Diagram(s) (relative to this directory)",
         default: "./example-input/SeqD-examples/SeqDs",
         when(answers) {
-            return answers.generationType === 0;
-        },
+            return answers.genType === genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
+        }
     },
     {
         type: "input",
@@ -37,8 +42,8 @@ const questions = [
         message: "Path to Thing Descriptions (relative to this directory)",
         default: "./example-input/SeqD-examples/TDs.json",
         when(answers) {
-            return answers.generationType === 0;
-        },
+            return answers.genType === genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
+        }
     },
     {
         type: "input",
@@ -46,18 +51,63 @@ const questions = [
         message: "Path to folder containing your System Description(s) (relative to this directory)",
         default: "./example-input/SD-examples/SDs",
         when(answers) {
-            return answers.generationType === 1;
-        },
+            return answers.genType === genType.SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM
+        }
     },
     {
         type: "input",
         name: "outputPath",
         message: "Where to put created output? (relative to this directory)",
-        default: "./created-output",
-    },
-];
+        default: "./created-output"
+    }
+]
 
-inquirer.prompt(questions).then((answers) => {
+const args = process.argv.slice(2)
+
+if (args.length > 0) {
+    // Either the "old" mode using arguments
+    // Or the "config" mode
+    questions = []
+}
+
+inquirer.prompt(questions).then(answers => {
+    if (args.length > 0) {
+        answers = {}
+        if (args.length == 1 && args[0].endsWith(".conf.json")) {
+            // The "config" mode
+            const config = JSON.parse(fs.readFileSync(args[0], "utf8"))
+            if (config["generation_type"] === "SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION") {
+                answers.genType = genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
+                answers.SeqDPath = config["sequence_diagram_path"]
+                answers.TDsPath = config["thing_descriptions_path"]
+                answers.outputPath = config["output_path"]
+            } else if (config["generation_type"] === "SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM") {
+                answers.genType = genType.SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM
+                answers.SDPath = config["system_description_path"]
+                answers.outputPath = config["output_path"]
+            } else {
+                console.error(`Invalid generation_type in ${args[0]}`)
+                process.exit(-1)
+            }
+        } else if (args.length == 2) {
+            // The "old" mode using arguments
+            // Sequence Diagram to System Description
+            answers.genType = genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
+            answers.SeqDPath = args[0]
+            answers.TDsPath = args[1]
+            answers.outputPath = "./created-output"
+        } else if (args.length == 1) {
+            // The "old" mode using arguments
+            // System Description to Sequence Diagram
+            answers.genType = genType.SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM
+            answers.SDPath = args[0]
+            answers.outputPath = "./created-output"
+        } else {
+            console.error("Invalid arguments")
+            process.exit(-1)
+        }
+    }
+
     const SDCHECK = true
     // used expressions: TODO - important, OPT - improvement
     // determine filePaths
@@ -93,7 +143,7 @@ inquirer.prompt(questions).then((answers) => {
             let outBase: string
             let codeInput: string | undefined
 
-            if (answers.generationType == 1 && fileType === "json") {
+            if (answers.genType === genType.SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM && fileType === "json") {
                 // convert SD to Sequence Diagram
 
                 checkSD(inFile, SDCHECK).then(() => {
@@ -129,7 +179,7 @@ inquirer.prompt(questions).then((answers) => {
                     console.error({ thisFileName }, "input SD invalid: " + e)
                 })
 
-            } else if (answers.generationType == 0 && fileType === "puml") {
+            } else if (answers.genType === genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION && fileType === "puml") {
                 // convert Sequence Diagram to SD
                 validateSeqD(inFile).then(ok => {
                     console.log({ thisFileName }, { ok })
@@ -192,4 +242,4 @@ inquirer.prompt(questions).then((answers) => {
 
         })
     })
-});
+})

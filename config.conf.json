@@ -1,0 +1,7 @@
+{
+    "generation_type": "SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION",
+    "sequence_diagram_path": "./example-input/SeqD-examples/SeqDs",
+    "thing_descriptions_path": "./example-input/SeqD-examples/TDs.json",
+    "system_description_path": "./example-input/SD-examples/SDs",
+    "output_path": "./created-output"
+}
