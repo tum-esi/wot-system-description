@@ -1,0 +1,122 @@
+openapi: 3.0.1
+info:
+  title: WOT SD Basic Backend Server
+  description: A simple HTTP server wrapper around [Web of Things System Description CLI tool](https://github.com/tum-esi/wot-system-description).
+  version: 1.0.0
+servers:
+- url: http://127.0.0.1:3000
+tags:
+- name: generator
+  description: CLI generator-related operations
+paths:
+  /generate:
+    post:
+      tags:
+      - generator
+      summary: Generate assets from either Sequence Diagram or System Description
+      operationId: generate
+      requestBody:
+        description: >-
+          The generation type is deduced from the input payload.
+          A Sequence Diagram (.puml file) should be a URI-encoded string (e.g, using `encodeURIComponent` in Javascript).
+          Thing Descriptions and System Descriptions should be passed as they-are (i.e., as JSON objects)
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                  properties:
+                    puml:
+                      type: string
+                    tds:
+                      type: object
+                - type: object
+                  properties:
+                    sd:
+                      type: object
+            examples:
+              Sequence Diagram To System Description:
+                value:
+                  puml: "%SequenceDiagramAsURIEncodedString%"
+                  tds: {}
+              System Description To Sequence Diagram:
+                value:
+                  sd: {}
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      success:
+                        type: boolean
+                      code:
+                        type: object
+                        properties:
+                          ts:
+                            type: string
+                          tsconfig:
+                            type: string
+                          js:
+                            type: string
+                      sd:
+                        type: string
+                  - type: object
+                    properties:
+                      success:
+                        type: boolean
+                      code:
+                        type: object
+                        properties:
+                          ts:
+                            type: string
+                          tsconfig:
+                            type: string
+                          js:
+                            type: string
+                      puml:
+                        type: string
+                      tds:
+                        type: string
+              examples:
+                Sequence Diagram To System Description:
+                  value:
+                    success: true
+                    code:
+                      ts: "http://127.0.0.1:3000/54a3f07fc9135e44/code/54a3f07fc9135e44.ts"
+                      tsconfig: "http://127.0.0.1:3000/54a3f07fc9135e44/tsconfig.json"
+                      js: "http://127.0.0.1:3000/54a3f07fc9135e44/code/54a3f07fc9135e44_index.js"
+                    sd: "http://127.0.0.1:3000/54a3f07fc9135e44/sds/54a3f07fc9135e44.json"
+                System Description To Sequence Diagram:
+                  value:
+                    success: true
+                    code:
+                      ts: "http://127.0.0.1:3000/d7db70f9a3cb4bd1/code/d7db70f9a3cb4bd1.ts"
+                      tsconfig: "http://127.0.0.1:3000/d7db70f9a3cb4bd1/tsconfig.json"
+                      js: "http://127.0.0.1:3000/d7db70f9a3cb4bd1/code/d7db70f9a3cb4bd1_index.js"
+                    puml: "http://127.0.0.1:3000/d7db70f9a3cb4bd1/seqds/d7db70f9a3cb4bd1.puml"
+                    tds: "http://127.0.0.1:3000/d7db70f9a3cb4bd1/TDs.json"
+        400:
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                Unknown Generation Type:
+                  value:
+                    success: false
+                    error: unknown generation type
+                Incorrect Input Files:
+                  value:
+                    success: false
+                    error: incorrect input files
