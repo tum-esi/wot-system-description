@@ -3,5 +3,6 @@
     "sequence_diagram_path": "./example-input/SeqD-examples/SeqDs",
     "thing_descriptions_path": "./example-input/SeqD-examples/TDs.json",
     "system_description_path": "./example-input/SD-examples/SDs",
+    "generate_code": true,
     "output_path": "./created-output"
 }

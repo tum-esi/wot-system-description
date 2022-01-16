@@ -55,6 +55,12 @@ let questions = [
         }
     },
     {
+        type: 'confirm',
+        name: 'generateCode',
+        message: 'Generate code?',
+        default: true,
+    },
+    {
         type: "input",
         name: "outputPath",
         message: "Where to put created output? (relative to this directory)",
@@ -80,27 +86,33 @@ inquirer.prompt(questions).then(answers => {
                 answers.genType = genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
                 answers.SeqDPath = config["sequence_diagram_path"]
                 answers.TDsPath = config["thing_descriptions_path"]
+                answers.generateCode = config["generate_code"]
                 answers.outputPath = config["output_path"]
             } else if (config["generation_type"] === "SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM") {
                 answers.genType = genType.SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM
                 answers.SDPath = config["system_description_path"]
+                answers.generateCode = config["generate_code"]
                 answers.outputPath = config["output_path"]
             } else {
                 console.error(`Invalid generation_type in ${args[0]}`)
                 process.exit(-1)
             }
         } else if (args.length == 2) {
-            // The "old" mode using arguments
+            // The "old" mode using CLI arguments
             // Sequence Diagram to System Description
+            // In CLI method, code is always generated
             answers.genType = genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
             answers.SeqDPath = args[0]
             answers.TDsPath = args[1]
+            answers.generateCode = true
             answers.outputPath = "./created-output"
         } else if (args.length == 1) {
-            // The "old" mode using arguments
+            // The "old" mode using CLI arguments
             // System Description to Sequence Diagram
+            // In CLI method, code is always generated
             answers.genType = genType.SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM
             answers.SDPath = args[0]
+            answers.generateCode = true
             answers.outputPath = "./created-output"
         } else {
             console.error("Invalid arguments")
@@ -168,7 +180,10 @@ inquirer.prompt(questions).then(answers => {
                         console.error({ thisFileName })
                         throw new Error({ thisFileName } + " generate SeqD problem!: " + error)
                     }
-                    codeGen()
+
+                    if (answers.generateCode) {
+                        codeGen()
+                    }
 
                     fs.writeFile(wholeOutPath, outFile, "utf8", () => {
                         fs.writeFile(outputPath + "TDs.json", JSON.stringify(outTDs), () => {
@@ -211,7 +226,11 @@ inquirer.prompt(questions).then(answers => {
                             console.error({ thisFileName }, "created output SD is invalid: " + e)
                         })
                     })
-                    codeGen()
+
+                    if (answers.generateCode) {
+                        codeGen()
+                    }
+
                 }, notOk => {
                     console.log({ thisFileName }, notOk)
                     throw new Error("!!! invalid Sequence Diagram notation" + notOk)
