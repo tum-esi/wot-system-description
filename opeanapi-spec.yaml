@@ -18,11 +18,10 @@ paths:
       requestBody:
         description: >-
           The generation type is deduced from the input payload.
-          A Sequence Diagram (.puml file) should be a URI-encoded string (e.g, using `encodeURIComponent` in Javascript).
-          Thing Descriptions and System Descriptions should be passed as they-are (i.e., as JSON objects)
+          All fields are sent as text data.
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               oneOf:
                 - type: object
@@ -30,19 +29,19 @@ paths:
                     puml:
                       type: string
                     tds:
-                      type: object
+                      type: string
                 - type: object
                   properties:
                     sd:
-                      type: object
+                      type: string
             examples:
               Sequence Diagram To System Description:
                 value:
-                  puml: "%SequenceDiagramAsURIEncodedString%"
-                  tds: {}
+                  puml: "%SEQUENCE_DIAGRAM_PASTED_AS_IT_IS%"
+                  tds: "%TDS_FILE_PASTED_AS_IT_IS%"
               System Description To Sequence Diagram:
                 value:
-                  sd: {}
+                  sd: "%SYSTEM_DESCRIPTION_PASTED_AS_IT_IS%"
       responses:
         200:
           description: Successful operation

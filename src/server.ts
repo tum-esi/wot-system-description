@@ -2,23 +2,24 @@ import fs = require('fs')
 import crypto = require('crypto');
 const { execSync } = require("child_process")
 const express = require('express')
+const multer = require('multer')
 const app = express()
+const upload = multer()
 const PORT = 3000
 
-app.use(express.json())
 app.use(express.static('./created-output'))
 
-app.post('/generate', function async(req, res) {
+app.post('/generate', upload.none(), function async(req, res) {
   // Generate unique ID for resources related to this request
   const token = crypto.randomBytes(8).toString('hex')
 
-  if (req.body.hasOwnProperty('puml') && req.body.hasOwnProperty('tds')) {
+  if ('puml' in req.body && 'tds' in req.body) {
     // Generation type SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION
 
     // Create temporary files with input
     fs.mkdirSync(`./server-input/${token}`, { recursive: true })
-    fs.writeFileSync(`./server-input/${token}/${token}.puml`, decodeURIComponent(req.body['puml']))
-    fs.writeFileSync(`./server-input/${token}/${token}.json`, JSON.stringify(req.body['tds']))
+    fs.writeFileSync(`./server-input/${token}/${token}.puml`, req.body['puml'])
+    fs.writeFileSync(`./server-input/${token}/${token}.json`, req.body['tds'])
 
     try {
       execSync(`node ./dist/src/main.js ./server-input/${token} ./server-input/${token}/${token}.json`)
@@ -36,12 +37,12 @@ app.post('/generate', function async(req, res) {
       res.send({ success: false, error: 'incorrect input files' })
     }
 
-  } else if (req.body.hasOwnProperty('sd')) {
+  } else if ('sd' in req.body) {
     // Generation type SYSTEM_DESCRIPTION_TO_SEQUENCE_DIAGRAM
 
     // Create temporary files with input
     fs.mkdirSync(`./server-input/${token}`, { recursive: true })
-    fs.writeFileSync(`./server-input/${token}/${token}.json`, JSON.stringify(req.body['sd']))
+    fs.writeFileSync(`./server-input/${token}/${token}.json`, req.body['sd'])
 
     try {
       execSync(`node ./dist/src/main.js ./server-input/${token}`)
