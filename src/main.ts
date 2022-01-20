@@ -129,7 +129,7 @@ inquirer.prompt(questions).then(answers => {
         inFilesPath = inFilesPath.slice(0, -1)
     }
     const tdFilePath = answers.TDsPath
-    const outputPath = answers.outputPath + inFilesPath.replace(/^[^]*example-input/, "").split("/").slice(0, -1).join("/") + "/"
+    const outputPath = `${answers.outputPath}/${inFilesPath.split("/").slice(-1)}/`
 
     // createFolders
     fs.mkdirSync(outputPath + "SeqDs/", { recursive: true })

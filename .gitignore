@@ -16,3 +16,6 @@ out
 
 # tests
 dev
+
+# temporary files created by server
+server-input

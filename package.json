@@ -2,11 +2,12 @@
   "name": "wot-mashups",
   "version": "1.0.0",
   "description": "Web of Things (WoT) Mashup management",
-  "main": "./dist/main.js",
+  "main": "./dist/src/main.js",
   "scripts": {
     "test": "npm run build & npm start",
     "build": "tsc",
     "start": "node ./dist/src/main.js",
+    "server": "node ./dist/src/server.js",
     "code": "node ./dist/src/callCode.js",
     "clean": "rm -rf node_modules; rm -rf dist; rm -rf package-lock.json",
     "createSD": "npm run build & node ./dist/src/manualSD.js",
@@ -38,7 +39,9 @@
     "@node-wot/binding-http": "^0.7.0-SNAPSHOT.6",
     "@node-wot/core": "^0.7.0-SNAPSHOT.6",
     "ajv": "^6.11.0",
+    "express": "^4.17.2",
     "inquirer": "^8.2.0",
-    "js-beautify": "^1.10.3"
+    "js-beautify": "^1.10.3",
+    "multer": "^1.4.4"
   }
 }
