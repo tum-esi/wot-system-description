@@ -1,12 +1,14 @@
 import fs = require('fs')
-import crypto = require('crypto');
+import crypto = require('crypto')
 const { execSync } = require("child_process")
 const express = require('express')
 const multer = require('multer')
+const cors = require('cors')
 const app = express()
 const upload = multer()
 const PORT = 3000
 
+app.use(cors())
 app.use(express.static('./created-output'))
 
 app.post('/generate', upload.none(), function async(req, res) {

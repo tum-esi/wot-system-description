@@ -39,6 +39,7 @@
     "@node-wot/binding-http": "^0.7.0-SNAPSHOT.6",
     "@node-wot/core": "^0.7.0-SNAPSHOT.6",
     "ajv": "^6.11.0",
+    "cors": "^2.8.5",
     "express": "^4.17.2",
     "inquirer": "^8.2.0",
     "js-beautify": "^1.10.3",
