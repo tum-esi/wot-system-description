@@ -1,6 +1,6 @@
 const API_URL = 'http://127.0.0.1:3000';
 
-const processSD = document.getElementById('processSD');
+const processSD = document.getElementById('process-sd');
 processSD.addEventListener('click', async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -15,12 +15,12 @@ processSD.addEventListener('click', async (e) => {
         let response = await fetch(path, {
             method: 'GET'
         });
-        document.getElementById('pumlText').value = await response.text();
+        document.querySelector('#puml-text textarea').value = await response.text();
 
         path = data['code']['js'];
         response = await fetch(path, {
             method: 'GET'
         });
-        document.getElementById('code').value = await response.text();
+        document.querySelector('#js-code textarea').value = await response.text();
     }
 });
