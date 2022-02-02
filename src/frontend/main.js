@@ -20,7 +20,7 @@ processSD.addEventListener('click', async (e) => {
         document.querySelector('#puml-text textarea').value = puml;
 
         document.querySelector('#puml-rendered div').innerHTML =
-            `<img src="https://www.plantuml.com/plantuml/img/${window.plantumlEncoder.encode(puml)}">`;
+            `<img src="http://127.0.0.1:8080/plantuml/png/${window.plantumlEncoder.encode(puml)}">`;
 
         path = data['tds'];
         response = await fetch(path, {
