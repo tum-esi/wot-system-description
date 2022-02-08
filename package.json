@@ -45,6 +45,7 @@
     "express": "^4.17.2",
     "inquirer": "^8.2.0",
     "js-beautify": "^1.10.3",
+    "monaco-editor": "^0.31.1",
     "multer": "^1.4.4"
   }
 }

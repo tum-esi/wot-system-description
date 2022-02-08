@@ -1,11 +1,12 @@
-const API_URL = 'http://127.0.0.1:3000';
+const BACKEND_URL = 'http://127.0.0.1:3000';
+const PUML_SERVER_URL = 'http://127.0.0.1:8080';
 
 const processSD = document.getElementById('process-sd');
 processSD.addEventListener('click', async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('sd', document.getElementById('sd').value);
-    const response = await fetch(`${API_URL}/generate`, {
+    formData.append('sd', window.sdEditor.getValue());
+    const response = await fetch(`${BACKEND_URL}/generate`, {
         method: 'POST',
         body: formData
     });
@@ -17,34 +18,33 @@ processSD.addEventListener('click', async (e) => {
         });
 
         const puml = await response.text();
-        document.querySelector('#puml-text textarea').value = puml;
+        window.pumlEditor.setValue(puml);
 
         document.querySelector('#puml-rendered div').innerHTML =
-            `<img src="http://127.0.0.1:8080/plantuml/png/${window.plantumlEncoder.encode(puml)}">`;
+            `<img src="${PUML_SERVER_URL}/plantuml/png/${window.plantumlEncoder.encode(puml)}">`;
 
         path = data['tds'];
         response = await fetch(path, {
             method: 'GET'
         });
-        document.querySelector('#tds textarea').value =
-            JSON.stringify(JSON.parse(await response.text()), null, 4);
+        window.tdsEditor.setValue(JSON.stringify(JSON.parse(await response.text()), null, 4));
 
         path = data['code']['js'];
         response = await fetch(path, {
             method: 'GET'
         });
-        document.querySelector('#js-code textarea').value = await response.text();
+        window.jsEditor.setValue(await response.text());
 
         path = data['code']['ts'];
         response = await fetch(path, {
             method: 'GET'
         });
-        document.querySelector('#ts-code textarea').value = await response.text();
+        window.tsEditor.setValue(await response.text());
 
         path = data['code']['tsconfig'];
         response = await fetch(path, {
             method: 'GET'
         });
-        document.querySelector('#tsconfig textarea').value = await response.text();
+        window.tsconfigEditor.setValue(await response.text());
     }
 });
