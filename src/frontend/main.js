@@ -48,3 +48,48 @@ processSD.addEventListener('click', async (e) => {
         window.tsconfigEditor.setValue(await response.text());
     }
 });
+
+const processPuml = document.getElementById('process-puml');
+processPuml.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const puml = window.pumlEditor.getValue();
+
+    document.querySelector('#puml-rendered div').innerHTML =
+        `<img src="${PUML_SERVER_URL}/plantuml/png/${window.plantumlEncoder.encode(puml)}">`;
+
+    const formData = new FormData();
+    formData.append('puml', puml);
+    formData.append('tds', window.tdsEditor.getValue());
+    const response = await fetch(`${BACKEND_URL}/generate`, {
+        method: 'POST',
+        body: formData
+    });
+    const data = await response.json();
+    if (data['success']) {
+        let path = data['sd'];
+        let response = await fetch(path, {
+            method: 'GET'
+        });
+
+        const sd = await response.text();
+        window.sdEditor.setValue(sd);
+
+        path = data['code']['js'];
+        response = await fetch(path, {
+            method: 'GET'
+        });
+        window.jsEditor.setValue(await response.text());
+
+        path = data['code']['ts'];
+        response = await fetch(path, {
+            method: 'GET'
+        });
+        window.tsEditor.setValue(await response.text());
+
+        path = data['code']['tsconfig'];
+        response = await fetch(path, {
+            method: 'GET'
+        });
+        window.tsconfigEditor.setValue(await response.text());
+    }
+});
