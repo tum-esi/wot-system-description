@@ -145,9 +145,9 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/plantuml-encoder@1.4/dist/plantuml-encoder.min.js"></script>
-  <script src="../../node_modules/monaco-editor/min/vs/loader.js"></script>
+  <script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
   <script>
-    require.config({ paths: { vs: '../../node_modules/monaco-editor/min/vs' } });
+    require.config({ paths: { vs: './node_modules/monaco-editor/min/vs' } });
 
     require(['vs/editor/editor.main'], function () {
       window.sdEditor = monaco.editor.create(document.getElementById('sd-editor'), {

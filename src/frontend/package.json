@@ -1,0 +1,22 @@
+{
+  "name": "wot-mashups-frontend",
+  "version": "1.0.0",
+  "description": "Web of Things (WoT) Mashup management",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tum-esi/wot-system-description.git"
+  },
+  "author": "TUM-ESI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tum-esi/wot-system-description/issues"
+  },
+  "homepage": "https://github.com/tum-esi/wot-system-description#readme",
+  "dependencies": {
+    "monaco-editor": "^0.32.1"
+  }
+}
