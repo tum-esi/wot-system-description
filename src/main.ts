@@ -141,7 +141,10 @@ inquirer.prompt(questions).then(answers => {
 
     // ------------ Program -------------
     fs.readdir(inFilesPath, (err, fileNames) => {
-        if (err) { throw new Error("could not read input files") }
+        if (err) {
+            console.error("could not read input files")
+            process.exit(-1)
+        }
         fileNames.forEach(thisFileName => {
             const filePath = inFilesPath + "/" + thisFileName
             const fileType = thisFileName.split(".").pop()
@@ -171,14 +174,14 @@ inquirer.prompt(questions).then(answers => {
                     try {
                         mashupLogic = parseSD(inSD)
                     } catch (error) {
-                        console.error({ thisFileName })
-                        throw new Error({ thisFileName } + " parse SD problem!: " + error)
+                        console.error({ thisFileName }, "parse SD problem!: " + error)
+                        process.exit(-1)
                     }
                     try {
                         outFile = generateSeqD(mashupLogic)
                     } catch (error) {
-                        console.error({ thisFileName })
-                        throw new Error({ thisFileName } + " generate SeqD problem!: " + error)
+                        console.error({ thisFileName }, "generate SeqD problem!: " + error)
+                        process.exit(-1)
                     }
 
                     if (answers.generateCode) {
@@ -192,6 +195,7 @@ inquirer.prompt(questions).then(answers => {
                     })
                 }, e => {
                     console.error({ thisFileName }, "input SD invalid: " + e)
+                    process.exit(-1)
                 })
 
             } else if (answers.genType === genType.SEQUENCE_DIAGRAM_TO_SYSTEM_DESCRIPTION && fileType === "puml") {
@@ -204,15 +208,15 @@ inquirer.prompt(questions).then(answers => {
                     try {
                         mashupLogic = parseSeqD(inFile)
                     } catch (error) {
-                        console.error({ thisFileName })
-                        throw new Error(thisFileName + " parseSeqD problem!: " + error)
+                        console.error({ thisFileName }, "parseSeqD problem!: " + error)
+                        process.exit(-1)
                     }
 
                     try {
                         outFile = generateSD(mashupLogic, inTds)
                     } catch (error) {
-                        console.error({ thisFileName })
-                        throw new Error(thisFileName + " generateSD problem!: " + error)
+                        console.error({ thisFileName }, "generateSD problem!: " + error)
+                        process.exit(-1)
                     }
 
                     codeInput = outFile
@@ -224,6 +228,7 @@ inquirer.prompt(questions).then(answers => {
                     }, e => {
                         fs.writeFile(wholeOutPath, outFile, "utf8", () => {
                             console.error({ thisFileName }, "created output SD is invalid: " + e)
+                            process.exit(-1)
                         })
                     })
 
@@ -232,8 +237,8 @@ inquirer.prompt(questions).then(answers => {
                     }
 
                 }, notOk => {
-                    console.log({ thisFileName }, notOk)
-                    throw new Error("!!! invalid Sequence Diagram notation" + notOk)
+                    console.error({ thisFileName }, "!!! invalid Sequence Diagram notation" + notOk)
+                    process.exit(-1)
                 })
 
 
@@ -242,15 +247,21 @@ inquirer.prompt(questions).then(answers => {
             function codeGen() {
                 // Code generation
                 const codeOutPath = outputPath + "Code/" + outFileName
-                if (!mashupLogic) { throw new Error("problem with mashup logic!") }
-                if (!codeInput) { throw new Error("sd generation not working?") }
+                if (!mashupLogic) {
+                    console.error("problem with mashup logic")
+                    process.exit(-1)
+                }
+                if (!codeInput) {
+                    console.error("sd generation not working")
+                    process.exit(-1)
+                }
                 try {
                     const genResult = generateTS(JSON.parse(codeInput), mashupLogic, outFileName)
                     outCode = genResult.code
                     outBase = genResult.base
                 } catch (error) {
-                    console.error({ thisFileName })
-                    throw new Error(thisFileName + " codeGen problem!: " + error)
+                    console.error({ thisFileName }, "codeGen problem!: " + error)
+                    process.exit(-1)
                 }
                 fs.writeFile((codeOutPath + "_index.js"), outBase, "utf8", () => {
                     fs.writeFile((codeOutPath + ".ts"), outCode, "utf8", () => {

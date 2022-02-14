@@ -34,9 +34,9 @@ app.post('/generate', upload.none(), function async(req, res) {
         },
         sd: `${req.protocol}://${req.hostname}:${PORT}/${token}/sds/${token}.json`
       })
-    } catch (_) {
+    } catch (error) {
       res.status(400)
-      res.send({ success: false, error: 'incorrect input files' })
+      res.send({ success: false, error: `incorrect input files: ${error}` })
     }
 
   } else if ('sd' in req.body) {
@@ -60,12 +60,13 @@ app.post('/generate', upload.none(), function async(req, res) {
       })
     } catch (error) {
       res.status(400)
-      res.send({ success: false, error: 'incorrect input files' })
+      res.send({ success: false, error: `incorrect input files: ${error}` })
     }
 
   } else {
     res.status(400)
-    res.send({ success: false, error: 'unknown generation type' })
+    res.send({ success: false,
+      error: 'unknown generation type: please specify either system description or sequence diagram + tds' })
   }
 })
 
