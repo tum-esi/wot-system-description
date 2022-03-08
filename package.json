@@ -4,6 +4,7 @@
   "description": "Web of Things (WoT) Mashup management",
   "main": "./dist/src/main.js",
   "scripts": {
+    "postinstall": "curl https://github.com/plantuml/plantuml/releases/download/v1.2022.1/plantuml-1.2022.1.jar -o plantuml-1.2022.1.jar",
     "test": "npm run build & npm start",
     "build": "tsc",
     "start": "node ./dist/src/main.js",

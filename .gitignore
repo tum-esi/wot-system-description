@@ -22,3 +22,6 @@ dev
 
 # temporary files created by server
 server-input
+
+# plantUML backend server (and possibly other JAVA artifacts)
+*.jar
