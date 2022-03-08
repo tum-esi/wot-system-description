@@ -1,6 +1,9 @@
+// Address of the backend (server.ts) that wraps the CLI tool
 const BACKEND_URL = 'http://127.0.0.1:3000';
+// Address of the plantUML backend server that generates diagrams
 const PUML_SERVER_URL = 'http://127.0.0.1:8080';
 
+// System Description -> Sequence Diagram generation
 const processSD = document.getElementById('process-sd');
 processSD.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -58,6 +61,7 @@ processSD.addEventListener('click', async (e) => {
     }
 });
 
+// Sequence Diagram -> System Description generation
 const processPuml = document.getElementById('process-puml');
 processPuml.addEventListener('click', async (e) => {
     e.preventDefault();

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
+  <!-- Meta tags required by Bootstrap -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,17 +25,20 @@
         <div class="row text-end">
           <div class="col">
             <h6 class="mb-0">
-              <a class="text-white text-decoration-none" href="https://tum-esi.github.io/wot-system-description/" target="_blank">Specification</a>
+              <a class="text-white text-decoration-none" href="https://tum-esi.github.io/wot-system-description/"
+                target="_blank">Specification</a>
             </h6>
           </div>
           <div class="col">
             <h6 class="mb-0">
-              <a class="text-white text-decoration-none" href="https://github.com/tum-esi/wot-system-description" target="_blank">GitHub</a>
+              <a class="text-white text-decoration-none" href="https://github.com/tum-esi/wot-system-description"
+                target="_blank">GitHub</a>
             </h6>
           </div>
           <div class="col">
             <h6 class="mb-0">
-              <a class="text-white text-decoration-none" href="https://ieeexplore.ieee.org/document/9191677" target="_blank">Publication</a>
+              <a class="text-white text-decoration-none" href="https://ieeexplore.ieee.org/document/9191677"
+                target="_blank">Publication</a>
             </h6>
           </div>
         </div>
@@ -140,15 +143,22 @@
     </div>
   </div>
 
-  <!-- Bootstrap Bundle with Popper -->
+  <!-- Bootstrap JS bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
+
+  <!-- PlantUML Encoder used for diagram generation -->
   <script src="https://cdn.jsdelivr.net/npm/plantuml-encoder@1.4/dist/plantuml-encoder.min.js"></script>
+
+  <!-- Monaco Editor loader -->
   <script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+
   <script>
+    // Import Monaco Editor
     require.config({ paths: { vs: './node_modules/monaco-editor/min/vs' } });
 
+    // Create globally-available editor fields
     require(['vs/editor/editor.main'], function () {
       window.sdEditor = monaco.editor.create(document.getElementById('sd-editor'), {
         language: 'json',
